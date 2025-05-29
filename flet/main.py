@@ -6,7 +6,7 @@ from infodetallada import info_detallada
 
 def main(page: ft.Page):
     page.window.width = 400        # window's width is 200 px
-    page.window.height = 700       # window's height is 200 px
+    page.window.height = 800       # window's height is 200 px
     page.window.resizable = False  # window is not resizable
     page.update()
         
