@@ -1,6 +1,10 @@
 import flet as ft
 
-def menu_principal(page: ft.Page):
+def menu_principal(page: ft.Page, go_to_info):
+
+    def ir_a_info_detallada(e):
+        go_to_info()
+
     # Título
     titulo = ft.Text("Información de usuario", size=20, weight=ft.FontWeight.BOLD, color="black")
 
@@ -49,7 +53,7 @@ def menu_principal(page: ft.Page):
     registros_fila = ft.Row(
         [
             ft.Text("Registros de mi cultivo", size=18, weight=ft.FontWeight.BOLD, color="black"),
-            ft.TextButton("ver todo", style=ft.ButtonStyle(color="blue"))
+            ft.TextButton("Ver todo", style=ft.ButtonStyle(color="blue"),on_click=ir_a_info_detallada)
         ],
         alignment=ft.MainAxisAlignment.SPACE_BETWEEN
     )
