@@ -1,23 +1,27 @@
 import flet as ft
 from login import login_view
 from registrar import registrar_view
+from mainmenu import menu_principal
 
 def main(page: ft.Page):
-    page.window_width = 400
-    page.window_height = 800
-    page.window_resizable = False
-    page.window_maximizable = False
-    page.window_minimizable = False
-    page.window_always_on_top = False
+    page.window.width = 400        # window's width is 200 px
+    page.window.height = 800       # window's height is 200 px
+    page.window.resizable = False  # window is not resizable
     page.update()
-    
+        
     def route_change(e):
         page.views.clear()
 
         if page.route == "/registrar":
             page.views.append(registrar_view(page, volver_login=lambda: page.go("/")))
+        elif page.route == "/menu":
+            page.views.append(menu_principal(page))  # Esto funciona
         else:
-            page.views.append(login_view(page, go_to_registrar=lambda: page.go("/registrar")))
+            page.views.append(login_view(
+                page,
+                go_to_registrar=lambda: page.go("/registrar"),
+                go_to_menu=lambda: page.go("/menu")
+            ))
 
         page.update()
 
@@ -25,5 +29,3 @@ def main(page: ft.Page):
     page.go("/")  # Inicio con Login
 
 ft.app(target=main)
-
-
