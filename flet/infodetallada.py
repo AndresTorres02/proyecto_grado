@@ -7,14 +7,14 @@ def info_detallada(page: ft.Page):
                 ft.Row([
                     ft.Image(src=imagen, width=100, height=100, fit=ft.ImageFit.COVER),
                     ft.Column([
-                        ft.Text(titulo, weight=ft.FontWeight.BOLD),
-                        ft.Text(fecha)
+                        ft.Text(titulo, weight=ft.FontWeight.BOLD, color="black"),
+                        ft.Text(fecha, color="black")
                     ], spacing=5)
                 ], spacing=20),
-                ft.Text("Información", weight=ft.FontWeight.BOLD),
-                ft.Text(info, size=12),
-                ft.Text("Recomendaciones", weight=ft.FontWeight.BOLD),
-                ft.Text(recomendaciones, size=12),
+                ft.Text("Información", weight=ft.FontWeight.BOLD, color="black"),
+                ft.Text(info, size=12, color="black"),
+                ft.Text("Recomendaciones", weight=ft.FontWeight.BOLD, color="black"),
+                ft.Text(recomendaciones, size=12, color="black"),
                 ft.Divider(height=20, thickness=1)
             ]),
             padding=10
