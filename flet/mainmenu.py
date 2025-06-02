@@ -12,36 +12,114 @@ def menu_principal(page: ft.Page, go_to_info):
         page.update()
         page.go("/")
 
-    usuario = page.session.get("usuario") or {"nombre": "Desconocido", "correo": "N/A"}
+    # Datos del usuario
+    usuario = page.session.get("usuario") or {
+        "nombre": "andres torres",
+        "correo": "aftm@gmail.com",
+        "telefono": "+57 123 456 7890"
+    }
 
-    titulo = ft.Text("Información de usuario", size=20, weight=ft.FontWeight.BOLD, color="black")
+    # TextFields ocultos al inicio
+    nombre_field = ft.TextField(value=usuario["nombre"], color="black", visible=False)
+    correo_field = ft.TextField(value=usuario["correo"], color="black", visible=False)
+    telefono_field = ft.TextField(value=usuario["telefono"], color="black", visible=False)
 
-    nombre_usuario = ft.Row(
+    nombre_text = ft.Text(usuario["nombre"], color="black")
+    correo_text = ft.Text(usuario["correo"], color="black")
+    telefono_text = ft.Text(usuario["telefono"], color="black")
+
+    # Estados
+    estado = {"nombre": False, "correo": False, "telefono": False}
+
+    def toggle_edicion(campo):
+        def handler(e):
+            estado[campo] = not estado[campo]
+
+            if campo == "nombre":
+                nombre_field.visible = estado[campo]
+                nombre_text.visible = not estado[campo]
+                boton_nombre.icon = ft.icons.SAVE if estado[campo] else ft.icons.EDIT
+            elif campo == "correo":
+                correo_field.visible = estado[campo]
+                correo_text.visible = not estado[campo]
+                boton_correo.icon = ft.icons.SAVE if estado[campo] else ft.icons.EDIT
+            elif campo == "telefono":
+                telefono_field.visible = estado[campo]
+                telefono_text.visible = not estado[campo]
+                boton_telefono.icon = ft.icons.SAVE if estado[campo] else ft.icons.EDIT
+
+            page.update()
+        return handler
+
+    def guardar_cambios(e):
+        usuario["nombre"] = nombre_field.value
+        usuario["correo"] = correo_field.value
+        usuario["telefono"] = telefono_field.value
+
+        nombre_text.value = usuario["nombre"]
+        correo_text.value = usuario["correo"]
+        telefono_text.value = usuario["telefono"]
+
+        page.session.set("usuario", usuario)
+
+        page.snack_bar = ft.SnackBar(ft.Text("Información actualizada"))
+        page.snack_bar.open = True
+        page.update()
+
+    # Botones con íconos editables
+    boton_nombre = ft.IconButton(icon=ft.icons.EDIT, on_click=toggle_edicion("nombre"))
+    boton_correo = ft.IconButton(icon=ft.icons.EDIT, on_click=toggle_edicion("correo"))
+    boton_telefono = ft.IconButton(icon=ft.icons.EDIT, on_click=toggle_edicion("telefono"))
+
+    # Fila nombre
+    fila_nombre = ft.Row(
         [
             ft.Image(src="imagenes/label.png", width=25, height=25),
-            ft.Text(usuario["nombre"], color="black")
+            nombre_text,
+            nombre_field,
+            boton_nombre
         ],
         spacing=10
     )
 
+    # Fila correo
     fila_correo = ft.Row(
         [
             ft.Image(src="imagenes/email.png", width=25, height=25),
-            ft.Text(usuario["correo"], color="black")
+            correo_text,
+            correo_field,
+            boton_correo
         ],
         spacing=10
     )
 
+    # Fila teléfono
     fila_telefono = ft.Row(
         [
             ft.Image(src="imagenes/telephone.png", width=25, height=25),
-            ft.Text("+57 123 456 7890", color="black")
+            telefono_text,
+            telefono_field,
+            boton_telefono
         ],
         spacing=10
     )
 
+    # Imagen que actúa como botón de guardar
+    boton_guardar = ft.Image(
+        src="imagenes/diskette.png",
+        width=35,
+        height=35
+    )
+    boton_guardar.on_click = guardar_cambios
+
     columna_izquierda = ft.Column(
-        [titulo, nombre_usuario, fila_correo, fila_telefono],
+        [
+            ft.Text("Información de usuario", size=20, weight=ft.FontWeight.BOLD, color="black"),
+            fila_nombre,
+            fila_correo,
+            fila_telefono,
+            boton_guardar
+        ],
         spacing=15
     )
 
@@ -58,7 +136,7 @@ def menu_principal(page: ft.Page, go_to_info):
     registros_fila = ft.Row(
         [
             ft.Text("Registros de mi cultivo", size=18, weight=ft.FontWeight.BOLD, color="black"),
-            ft.TextButton("Ver todo", style=ft.ButtonStyle(color="blue"),on_click=ir_a_info_detallada)
+            ft.TextButton("Ver todo", style=ft.ButtonStyle(color="blue"), on_click=ir_a_info_detallada)
         ],
         alignment=ft.MainAxisAlignment.SPACE_BETWEEN
     )
@@ -71,7 +149,7 @@ def menu_principal(page: ft.Page, go_to_info):
 
     boton_cerrar_sesion = ft.Row(
         [
-            ft.Image(src="imagenes/logout.png", width=25, height=25),
+            ft.Image(src="imagenes/salida.png", width=25, height=25),
             ft.TextButton("Cerrar sesión", on_click=cerrar_sesion, style=ft.ButtonStyle(color="red"))
         ],
         spacing=10,
@@ -90,8 +168,7 @@ def menu_principal(page: ft.Page, go_to_info):
                 [
                     fila_contenido,
                     ft.Container(height=25),
-                    registros_fila,
-                    ft.Container(height=30), 
+                    registros_fila
                 ],
                 spacing=10,
                 alignment=ft.MainAxisAlignment.SPACE_BETWEEN
@@ -99,15 +176,11 @@ def menu_principal(page: ft.Page, go_to_info):
             padding=20
         ),
         ft.Container(
-        content=boton_cerrar_sesion,
-        left=20,
-        bottom=60,
+            content=boton_cerrar_sesion,
+            left=20,
+            bottom=60
         )
     ])
-
-    def cerrar_sesion(e):
-        page.session.clear()
-        page.go("/")  # Redirige al login
 
     return ft.View(
         route="/menu",
