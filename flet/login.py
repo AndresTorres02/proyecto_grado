@@ -1,26 +1,41 @@
 import flet as ft
+import mysql.connector
 
 def login_view(page: ft.Page, go_to_registrar, go_to_menu):
-    def ir_a_registro(e):
-        go_to_registrar()
 
-    def ir_a_menu(e):
-        go_to_menu()
+    def conectar_bd():
+        return mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="a1b2c3d4_",
+            database="sistema_cultivos"
+    )
 
-    titulo = ft.Text("Ingresar", size=30, color="black" , weight=ft.FontWeight.BOLD)
-    correo = ft.TextField(
-        label="Escribe tu correo",
-        text_style=ft.TextStyle(color="black"),
-        border_color="black"
-    )
-    contraseña = ft.TextField(
-        label="Escribe tu contraseña",
-        password=True,
-        text_style=ft.TextStyle(color="black"),
-        border_color="black"
-    )
-    loguear = ft.FilledButton(text="LOGIN", on_click=ir_a_menu)
-    registrar = ft.FilledButton(text="Regístrate", on_click=ir_a_registro)
+    def validar_login(e):
+        conn = conectar_bd()
+        cursor = conn.cursor()
+
+        query = "SELECT * FROM usuarios WHERE correo = %s AND contraseña = %s"
+        cursor.execute(query, (correo.value, contraseña.value))
+        resultado = cursor.fetchone()
+
+        if resultado:
+            page.dialog = ft.AlertDialog(title=ft.Text("¡Bienvenido!"), on_dismiss=lambda e: go_to_menu())
+            page.dialog.open = True
+            page.update()
+        else:
+            page.snack_bar = ft.SnackBar(ft.Text("Correo o contraseña incorrectos", color="white"), bgcolor="red")
+            page.snack_bar.open = True
+            page.update()
+
+        cursor.close()
+        conn.close()
+
+    titulo = ft.Text("Ingresar", size=30, color="black", weight=ft.FontWeight.BOLD)
+    correo = ft.TextField(label="Escribe tu correo", text_style=ft.TextStyle(color="black"), border_color="black")
+    contraseña = ft.TextField(label="Escribe tu contraseña", password=True, text_style=ft.TextStyle(color="black"), border_color="black")
+    loguear = ft.FilledButton(text="LOGIN", on_click=validar_login)
+    registrar = ft.FilledButton(text="Regístrate", on_click=lambda e: go_to_registrar())
 
     contenido = ft.Column(
         [titulo, correo, contraseña, loguear, registrar],
