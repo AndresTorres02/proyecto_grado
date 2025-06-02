@@ -20,15 +20,15 @@ def login_view(page: ft.Page, go_to_registrar, go_to_menu):
         resultado = cursor.fetchone()
 
         if resultado:
-            # Puedes mostrar un mensaje de bienvenida opcional
-            page.snack_bar = ft.SnackBar(
-                ft.Text("¡Bienvenido!", color="white"),
-                bgcolor="green"
+            page.session.set("usuario", {"nombre": resultado[1], "correo": resultado[2]})
+
+            page.dialog = ft.AlertDialog(
+                title=ft.Text("¡Bienvenido!"),
+                on_dismiss=lambda e: go_to_menu()
             )
-            page.snack_bar.open = True
+            page.dialog.open = True
             page.update()
 
-            # Redirigir directamente
             go_to_menu()
         else:
             page.snack_bar = ft.SnackBar(
