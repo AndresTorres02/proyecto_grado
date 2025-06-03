@@ -5,7 +5,6 @@ def registrar_view(page: ft.Page, volver_login):
     def regresar(e):
         volver_login()
 
-<<<<<<< HEAD
     titulo = ft.Text("Crear cuenta", size=30, color="Black", weight=ft.FontWeight.BOLD)
     correo = ft.TextField(label="Escribe tu correo", label_style=ft.TextStyle(color="Black"))
     nombre = ft.TextField(label="Escribe tu nombre completo", label_style=ft.TextStyle(color="black"))
@@ -13,7 +12,7 @@ def registrar_view(page: ft.Page, volver_login):
     confirmar = ft.TextField(label="Confirmar contraseña", password=True, label_style=ft.TextStyle(color="black"))
     crear = ft.FilledButton(text="CREAR", color="Black")
     volver = ft.FilledButton(text="Volver al Login", color="Black", on_click=regresar)
-=======
+
     def conectar_bd():
         return mysql.connector.connect(
             host="localhost",
@@ -83,7 +82,6 @@ def registrar_view(page: ft.Page, volver_login):
     confirmar = ft.TextField(label="Confirmar contraseña", password=True, color="black", label_style=ft.TextStyle(color="black"))
     crear = ft.FilledButton(text="CREAR", on_click=registrar_usuario)
     volver = ft.FilledButton(text="Volver al Login", on_click=regresar)
->>>>>>> 10cbe54a8d32beed6ce2fcc0b9c4b4afe57349cd
 
     contenido = ft.Column(
         [titulo, correo, nombre, contraseña, confirmar, crear, volver],

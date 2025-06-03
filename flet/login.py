@@ -1,8 +1,7 @@
 import flet as ft
-import mysql.connector
+import mysql.connector #como hago para que no marque error de importacion?
 
 def login_view(page: ft.Page, go_to_registrar, go_to_menu):
-<<<<<<< HEAD
     def ir_a_registro(e):
         go_to_registrar()
 #esto redirecciona al menu
@@ -24,7 +23,6 @@ def login_view(page: ft.Page, go_to_registrar, go_to_menu):
     )
     loguear = ft.FilledButton(text="LOGIN", on_click=ir_a_menu)
     registrar = ft.FilledButton(text="Regístrate", on_click=ir_a_registro)
-=======
 
     def conectar_bd():
         return mysql.connector.connect(
@@ -75,7 +73,6 @@ def login_view(page: ft.Page, go_to_registrar, go_to_menu):
     contraseña = ft.TextField(label="Escribe tu contraseña", password=True, text_style=ft.TextStyle(color="black"), border_color="black")
     loguear = ft.FilledButton(text="LOGIN", on_click=validar_login)
     registrar = ft.FilledButton(text="Regístrate", on_click=lambda e: go_to_registrar())
->>>>>>> 10cbe54a8d32beed6ce2fcc0b9c4b4afe57349cd
 
     contenido = ft.Column(
         [titulo, correo, contraseña, loguear, registrar],

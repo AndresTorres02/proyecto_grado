@@ -138,7 +138,7 @@ def menu_principal(page: ft.Page, go_to_info):
         ],
         spacing=15
     )
-
+    
     imagen_derecha = ft.Container(
         content=ft.Image(
             src="imagenes/imagen2.png",
@@ -156,7 +156,7 @@ def menu_principal(page: ft.Page, go_to_info):
         ],
         alignment=ft.MainAxisAlignment.SPACE_BETWEEN
     )
-
+    
     fila_contenido = ft.Row(
         [columna_izquierda, imagen_derecha],
         alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
