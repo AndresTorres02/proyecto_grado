@@ -20,7 +20,12 @@ def login_view(page: ft.Page, go_to_registrar, go_to_menu):
         resultado = cursor.fetchone()
 
         if resultado:
-            page.session.set("usuario", {"nombre": resultado[1], "correo": resultado[2]})
+            page.session.set("usuario", {
+                "nombre": resultado[1],
+                "correo": resultado[2],
+                "telefono": resultado[4] or ""
+            })
+
 
             page.dialog = ft.AlertDialog(
                 title=ft.Text("¡Bienvenido!"),

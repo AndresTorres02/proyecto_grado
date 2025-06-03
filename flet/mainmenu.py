@@ -66,10 +66,26 @@ def menu_principal(page: ft.Page, go_to_info):
         page.snack_bar.open = True
         page.update()
 
-    # Botones con íconos editables
-    boton_nombre = ft.IconButton(icon=ft.icons.EDIT, on_click=toggle_edicion("nombre"))
-    boton_correo = ft.IconButton(icon=ft.icons.EDIT, on_click=toggle_edicion("correo"))
-    boton_telefono = ft.IconButton(icon=ft.icons.EDIT, on_click=toggle_edicion("telefono"))
+    boton_nombre = ft.Image(
+        src="imagenes/pen.png", 
+        width=25,
+        height=25
+    )
+    boton_nombre.on_click = toggle_edicion("nombre")
+
+    boton_correo = ft.Image(
+        src="imagenes/pen.png",
+        width=25,
+        height=25
+    )
+    boton_correo.on_click = toggle_edicion("correo")
+
+    boton_telefono = ft.Image(
+        src="imagenes/pen.png",
+        width=25,
+        height=25
+    )
+    boton_telefono.on_click = toggle_edicion("telefono")
 
     # Fila nombre
     fila_nombre = ft.Row(

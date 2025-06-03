@@ -68,10 +68,10 @@ def registrar_view(page: ft.Page, volver_login):
     page.dialog = dialog
 
     titulo = ft.Text("Crear cuenta", size=30, color="white", weight=ft.FontWeight.BOLD)
-    correo = ft.TextField(label="Escribe tu correo")
-    nombre = ft.TextField(label="Escribe tu nombre completo")
-    contraseña = ft.TextField(label="Escribe tu contraseña", password=True)
-    confirmar = ft.TextField(label="Confirmar contraseña", password=True)
+    correo = ft.TextField(label="Escribe tu correo", color="black", label_style=ft.TextStyle(color="black"))
+    nombre = ft.TextField(label="Escribe tu nombre completo", color="black", label_style=ft.TextStyle(color="black"))
+    contraseña = ft.TextField(label="Escribe tu contraseña", password=True, color="black", label_style=ft.TextStyle(color="black"))
+    confirmar = ft.TextField(label="Confirmar contraseña", password=True, color="black", label_style=ft.TextStyle(color="black"))
     crear = ft.FilledButton(text="CREAR", on_click=registrar_usuario)
     volver = ft.FilledButton(text="Volver al Login", on_click=regresar)
 
