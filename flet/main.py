@@ -29,6 +29,6 @@ def main(page: ft.Page):
         page.update()
 
     page.on_route_change = route_change
-    page.go("/")  # Inicio con Login
+    page.go("/") 
 
 ft.app(target=main)

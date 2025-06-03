@@ -1,14 +1,13 @@
 import flet as ft
-import mysql.connector #como hago para que no marque error de importacion? por que no pndj
+import mysql.connector
 
 def login_view(page: ft.Page, go_to_registrar, go_to_menu):
     def ir_a_registro(e):
         go_to_registrar()
-#esto redirecciona al menu
+
     def ir_a_menu(e):
         go_to_menu()
 
-# darle formato al titulo, color negro. 
     titulo = ft.Text("Ingresar", size=30, color="Black" , weight=ft.FontWeight.BOLD)
     correo = ft.TextField(
         label="Escribe tu correo",

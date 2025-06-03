@@ -12,14 +12,12 @@ def menu_principal(page: ft.Page, go_to_info):
         page.update()
         page.go("/")
 
-    # Datos del usuario
     usuario = page.session.get("usuario") or {
         "nombre": "andres torres",
         "correo": "aftm@gmail.com",
         "telefono": "+57 123 456 7890"
     }
 
-    # TextFields ocultos al inicio
     nombre_field = ft.TextField(value=usuario["nombre"], color="black", visible=False)
     correo_field = ft.TextField(value=usuario["correo"], color="black", visible=False)
     telefono_field = ft.TextField(value=usuario["telefono"], color="black", visible=False)
@@ -28,7 +26,6 @@ def menu_principal(page: ft.Page, go_to_info):
     correo_text = ft.Text(usuario["correo"], color="black")
     telefono_text = ft.Text(usuario["telefono"], color="black")
 
-    # Estados
     estado = {"nombre": False, "correo": False, "telefono": False}
 
     def toggle_edicion(campo):
@@ -87,7 +84,6 @@ def menu_principal(page: ft.Page, go_to_info):
     )
     boton_telefono.on_click = toggle_edicion("telefono")
 
-    # Fila nombre
     fila_nombre = ft.Row(
         [
             ft.Image(src="imagenes/label.png", width=25, height=25),
@@ -98,7 +94,6 @@ def menu_principal(page: ft.Page, go_to_info):
         spacing=10
     )
 
-    # Fila correo
     fila_correo = ft.Row(
         [
             ft.Image(src="imagenes/email.png", width=25, height=25),
@@ -109,7 +104,6 @@ def menu_principal(page: ft.Page, go_to_info):
         spacing=10
     )
 
-    # Fila teléfono
     fila_telefono = ft.Row(
         [
             ft.Image(src="imagenes/telephone.png", width=25, height=25),
@@ -120,7 +114,6 @@ def menu_principal(page: ft.Page, go_to_info):
         spacing=10
     )
 
-    # Imagen que actúa como botón de guardar
     boton_guardar = ft.Image(
         src="imagenes/diskette.png",
         width=35,
