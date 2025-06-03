@@ -7,17 +7,17 @@ def login_view(page: ft.Page, go_to_registrar, go_to_menu):
     def ir_a_menu(e):
         go_to_menu()
 
-    titulo = ft.Text("Ingresar", size=30, color="black" , weight=ft.FontWeight.BOLD)
+    titulo = ft.Text("Ingresar", size=30, color="Black" , weight=ft.FontWeight.BOLD)
     correo = ft.TextField(
         label="Escribe tu correo",
-        text_style=ft.TextStyle(color="black"),
-        border_color="black"
+        text_style=ft.TextStyle(color="Black"),
+        border_color="Black"
     )
     contraseña = ft.TextField(
         label="Escribe tu contraseña",
         password=True,
-        text_style=ft.TextStyle(color="black"),
-        border_color="black"
+        text_style=ft.TextStyle(color="Black"),
+        border_color="Black"
     )
     loguear = ft.FilledButton(text="LOGIN", on_click=ir_a_menu)
     registrar = ft.FilledButton(text="Regístrate", on_click=ir_a_registro)
