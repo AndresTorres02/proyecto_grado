@@ -3,7 +3,7 @@ import flet as ft
 def login_view(page: ft.Page, go_to_registrar, go_to_menu):
     def ir_a_registro(e):
         go_to_registrar()
-
+#esto redirecciona al menu
     def ir_a_menu(e):
         go_to_menu()
 
