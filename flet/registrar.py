@@ -5,14 +5,6 @@ def registrar_view(page: ft.Page, volver_login):
     def regresar(e):
         volver_login()
 
-    titulo = ft.Text("Crear cuenta", size=30, color="Black", weight=ft.FontWeight.BOLD)
-    correo = ft.TextField(label="Escribe tu correo", label_style=ft.TextStyle(color="Black"))
-    nombre = ft.TextField(label="Escribe tu nombre completo", label_style=ft.TextStyle(color="black"))
-    contraseña = ft.TextField(label="Escribe tu contraseña", password=True, label_style=ft.TextStyle(color="black"))
-    confirmar = ft.TextField(label="Confirmar contraseña", password=True, label_style=ft.TextStyle(color="black"))
-    crear = ft.FilledButton(text="CREAR", color="Black")
-    volver = ft.FilledButton(text="Volver al Login", color="Black", on_click=regresar)
-
     def conectar_bd():
         return mysql.connector.connect(
             host="localhost",
@@ -26,13 +18,63 @@ def registrar_view(page: ft.Page, volver_login):
         page.update()
         volver_login()
 
+    def limpiar_campos():
+        for campo in [correo, nombre, contraseña, confirmar]:
+            campo.value = ""
+            campo.border_color = "grey"
+        correo_helper.value = ""
+        nombre_helper.value = ""
+        contra_helper.value = ""
+        confirmar_helper.value = ""
+
     def registrar_usuario(e):
+        vacio = False
+
+        # Limpiar advertencias previas
+        correo_helper.value = ""
+        nombre_helper.value = ""
+        contra_helper.value = ""
+        confirmar_helper.value = ""
+
+        # Validación de campos vacíos
+        if not correo.value:
+            correo.border_color = "red"
+            correo_helper.value = "El correo es obligatorio"
+            vacio = True
+        else:
+            correo.border_color = "grey"
+
+        if not nombre.value:
+            nombre.border_color = "red"
+            nombre_helper.value = "El nombre es obligatorio"
+            vacio = True
+        else:
+            nombre.border_color = "grey"
+
+        if not contraseña.value:
+            contraseña.border_color = "red"
+            contra_helper.value = "La contraseña es obligatoria"
+            vacio = True
+        else:
+            contraseña.border_color = "grey"
+
+        if not confirmar.value:
+            confirmar.border_color = "red"
+            confirmar_helper.value = "Debe confirmar la contraseña"
+            vacio = True
+        else:
+            confirmar.border_color = "grey"
+
+        if vacio:
+            page.update()
+            return
+
+        # Validar si las contraseñas coinciden
         if contraseña.value != confirmar.value:
-            page.snack_bar = ft.SnackBar(
-                ft.Text("Las contraseñas no coinciden", color="white"),
-                bgcolor="red"
-            )
-            page.snack_bar.open = True
+            contraseña.border_color = "red"
+            confirmar.border_color = "red"
+            contra_helper.value = "Las contraseñas no coinciden"
+            confirmar_helper.value = "Las contraseñas no coinciden"
             page.update()
             return
 
@@ -44,16 +86,14 @@ def registrar_view(page: ft.Page, volver_login):
             cursor.execute(query, (nombre.value, correo.value, contraseña.value))
             conn.commit()
 
+            limpiar_campos()
             dialog.title = ft.Text("Usuario registrado con éxito")
             dialog.open = True
             page.update()
 
         except mysql.connector.IntegrityError:
-            page.snack_bar = ft.SnackBar(
-                ft.Text("El correo ya está registrado", color="white"),
-                bgcolor="red"
-            )
-            page.snack_bar.open = True
+            correo.border_color = "red"
+            correo_helper.value = "El correo ya está registrado"
             page.update()
 
         except mysql.connector.Error as err:
@@ -68,6 +108,7 @@ def registrar_view(page: ft.Page, volver_login):
             cursor.close()
             conn.close()
 
+    # Diálogo de confirmación
     dialog = ft.AlertDialog(
         modal=True,
         actions=[ft.TextButton("OK", on_click=cerrar_dialogo)],
@@ -75,16 +116,38 @@ def registrar_view(page: ft.Page, volver_login):
     )
     page.dialog = dialog
 
+    # Campos del formulario y helpers
     titulo = ft.Text("Crear cuenta", size=30, color="white", weight=ft.FontWeight.BOLD)
-    correo = ft.TextField(label="Escribe tu correo", color="black", label_style=ft.TextStyle(color="black"))
-    nombre = ft.TextField(label="Escribe tu nombre completo", color="black", label_style=ft.TextStyle(color="black"))
-    contraseña = ft.TextField(label="Escribe tu contraseña", password=True, color="black", label_style=ft.TextStyle(color="black"))
-    confirmar = ft.TextField(label="Confirmar contraseña", password=True, color="black", label_style=ft.TextStyle(color="black"))
+
+    correo_helper = ft.Text("", size=12, color="red")
+    correo = ft.TextField(label="Escribe tu correo", color="black", label_style=ft.TextStyle(color="black"), border_color="grey")
+
+    nombre_helper = ft.Text("", size=12, color="red")
+    nombre = ft.TextField(label="Escribe tu nombre completo", color="black", label_style=ft.TextStyle(color="black"), border_color="grey")
+
+    contra_helper = ft.Text("", size=12, color="red")
+    contraseña = ft.TextField(label="Escribe tu contraseña", password=True, color="black", label_style=ft.TextStyle(color="black"), border_color="grey")
+
+    confirmar_helper = ft.Text("", size=12, color="red")
+    confirmar = ft.TextField(label="Confirmar contraseña", password=True, color="black", label_style=ft.TextStyle(color="black"), border_color="grey")
+
     crear = ft.FilledButton(text="CREAR", on_click=registrar_usuario)
     volver = ft.FilledButton(text="Volver al Login", on_click=regresar)
 
     contenido = ft.Column(
-        [titulo, correo, nombre, contraseña, confirmar, crear, volver],
+        [
+            titulo,
+            correo,
+            correo_helper,
+            nombre,
+            nombre_helper,
+            contraseña,
+            contra_helper,
+            confirmar,
+            confirmar_helper,
+            crear,
+            volver
+        ],
         alignment=ft.MainAxisAlignment.CENTER,
         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         scroll=ft.ScrollMode.AUTO
