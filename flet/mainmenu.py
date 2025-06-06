@@ -1,37 +1,47 @@
+# Importamos la biblioteca Flet
 import flet as ft
 
+# Función principal que renderiza el menú principal
 def menu_principal(page: ft.Page, go_to_info):
 
+    # Función para navegar a la pantalla de información detallada
     def ir_a_info_detallada(e):
         go_to_info()
 
+    # Función para cerrar sesión del usuario
     def cerrar_sesion(e):
-        page.session.clear()
-        page.snack_bar = ft.SnackBar(ft.Text("Sesión cerrada con éxito"))
+        page.session.clear()  # Limpia los datos de sesión
+        page.snack_bar = ft.SnackBar(ft.Text("Sesión cerrada con éxito"))  # Muestra notificación
         page.snack_bar.open = True
         page.update()
-        page.go("/")
+        page.go("/")  # Redirige al inicio
 
+    # Recupera la información del usuario desde la sesión, o usa valores por defecto si no existe
     usuario = page.session.get("usuario") or {
         "nombre": "andres torres",
         "correo": "aftm@gmail.com",
         "telefono": "+57 123 456 7890"
     }
 
+    # Campos ocultos para editar la información del usuario
     nombre_field = ft.TextField(value=usuario["nombre"], color="black", visible=False)
     correo_field = ft.TextField(value=usuario["correo"], color="black", visible=False)
     telefono_field = ft.TextField(value=usuario["telefono"], color="black", visible=False)
 
+    # Textos visibles para mostrar la información del usuario
     nombre_text = ft.Text(usuario["nombre"], color="black")
     correo_text = ft.Text(usuario["correo"], color="black")
     telefono_text = ft.Text(usuario["telefono"], color="black")
 
+    # Diccionario que guarda el estado de edición de cada campo
     estado = {"nombre": False, "correo": False, "telefono": False}
 
+    # Función que permite alternar entre mostrar texto o campo editable
     def toggle_edicion(campo):
         def handler(e):
-            estado[campo] = not estado[campo]
+            estado[campo] = not estado[campo]  # Cambia el estado del campo
 
+            # Alterna visibilidad y cambia el ícono del botón según el estado
             if campo == "nombre":
                 nombre_field.visible = estado[campo]
                 nombre_text.visible = not estado[campo]
@@ -45,45 +55,40 @@ def menu_principal(page: ft.Page, go_to_info):
                 telefono_text.visible = not estado[campo]
                 boton_telefono.icon = ft.icons.SAVE if estado[campo] else ft.icons.EDIT
 
-            page.update()
+            page.update()  # Refresca la interfaz
         return handler
 
+    # Función para guardar los cambios realizados en los campos editables
     def guardar_cambios(e):
+        # Actualiza el diccionario del usuario con los nuevos valores
         usuario["nombre"] = nombre_field.value
         usuario["correo"] = correo_field.value
         usuario["telefono"] = telefono_field.value
 
+        # Actualiza los textos visibles con los nuevos valores
         nombre_text.value = usuario["nombre"]
         correo_text.value = usuario["correo"]
         telefono_text.value = usuario["telefono"]
 
+        # Guarda los cambios en la sesión
         page.session.set("usuario", usuario)
 
+        # Muestra una notificación de éxito
         page.snack_bar = ft.SnackBar(ft.Text("Información actualizada"))
         page.snack_bar.open = True
         page.update()
 
-    boton_nombre = ft.Image(
-        src="imagenes/pen.png", 
-        width=25,
-        height=25
-    )
+    # Botones (íconos de lápiz) para editar nombre, correo y teléfono
+    boton_nombre = ft.Image(src="imagenes/pen.png", width=25, height=25)
     boton_nombre.on_click = toggle_edicion("nombre")
 
-    boton_correo = ft.Image(
-        src="imagenes/pen.png",
-        width=25,
-        height=25
-    )
+    boton_correo = ft.Image(src="imagenes/pen.png", width=25, height=25)
     boton_correo.on_click = toggle_edicion("correo")
 
-    boton_telefono = ft.Image(
-        src="imagenes/pen.png",
-        width=25,
-        height=25
-    )
+    boton_telefono = ft.Image(src="imagenes/pen.png", width=25, height=25)
     boton_telefono.on_click = toggle_edicion("telefono")
 
+    # Fila para mostrar/editar el nombre
     fila_nombre = ft.Row(
         [
             ft.Image(src="imagenes/label.png", width=25, height=25),
@@ -94,6 +99,7 @@ def menu_principal(page: ft.Page, go_to_info):
         spacing=10
     )
 
+    # Fila para mostrar/editar el correo
     fila_correo = ft.Row(
         [
             ft.Image(src="imagenes/email.png", width=25, height=25),
@@ -104,6 +110,7 @@ def menu_principal(page: ft.Page, go_to_info):
         spacing=10
     )
 
+    # Fila para mostrar/editar el teléfono
     fila_telefono = ft.Row(
         [
             ft.Image(src="imagenes/telephone.png", width=25, height=25),
@@ -114,13 +121,11 @@ def menu_principal(page: ft.Page, go_to_info):
         spacing=10
     )
 
-    boton_guardar = ft.Image(
-        src="imagenes/diskette.png",
-        width=35,
-        height=35
-    )
+    # Botón para guardar cambios (ícono de disquete)
+    boton_guardar = ft.Image(src="imagenes/diskette.png", width=35, height=35)
     boton_guardar.on_click = guardar_cambios
 
+    # Columna con toda la información del usuario y el botón de guardar
     columna_izquierda = ft.Column(
         [
             ft.Text("Información de usuario", size=20, weight=ft.FontWeight.BOLD, color="black"),
@@ -131,7 +136,8 @@ def menu_principal(page: ft.Page, go_to_info):
         ],
         spacing=15
     )
-    
+
+    # Imagen decorativa a la derecha del contenido
     imagen_derecha = ft.Container(
         content=ft.Image(
             src="imagenes/imagen2.png",
@@ -142,6 +148,7 @@ def menu_principal(page: ft.Page, go_to_info):
         padding=ft.padding.only(top=35, left=-35)
     )
 
+    # Fila para mostrar título y botón de navegación a registros
     registros_fila = ft.Row(
         [
             ft.Text("Registros de mi cultivo", size=18, weight=ft.FontWeight.BOLD, color="black"),
@@ -149,13 +156,15 @@ def menu_principal(page: ft.Page, go_to_info):
         ],
         alignment=ft.MainAxisAlignment.SPACE_BETWEEN
     )
-    
+
+    # Fila principal que contiene la columna izquierda y la imagen derecha
     fila_contenido = ft.Row(
         [columna_izquierda, imagen_derecha],
         alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
         vertical_alignment=ft.CrossAxisAlignment.START
     )
 
+    # Botón para cerrar sesión del usuario
     boton_cerrar_sesion = ft.Row(
         [
             ft.Image(src="imagenes/salida.png", width=25, height=25),
@@ -165,18 +174,19 @@ def menu_principal(page: ft.Page, go_to_info):
         alignment=ft.MainAxisAlignment.START
     )
 
+    # Fondo principal de la vista con imagen de fondo, contenido y botón de cerrar sesión
     fondo = ft.Stack([
-        ft.Image(
+        ft.Image(  # Imagen de fondo
             src="imagenes/fondo.jpg",
             fit=ft.ImageFit.COVER,
             width=400,
             height=800
         ),
-        ft.Container(
+        ft.Container(  # Contenedor principal del contenido
             content=ft.Column(
                 [
                     fila_contenido,
-                    ft.Container(height=25),
+                    ft.Container(height=25),  # Espacio entre secciones
                     registros_fila
                 ],
                 spacing=10,
@@ -184,13 +194,14 @@ def menu_principal(page: ft.Page, go_to_info):
             ),
             padding=20
         ),
-        ft.Container(
+        ft.Container(  # Contenedor para el botón de cerrar sesión
             content=boton_cerrar_sesion,
             left=20,
             bottom=60
         )
     ])
 
+    # Devuelve la vista completa del menú principal
     return ft.View(
         route="/menu",
         controls=[
