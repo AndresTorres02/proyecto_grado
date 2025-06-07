@@ -28,7 +28,7 @@ def login_view(page: ft.Page, go_to_registrar, go_to_menu):
         return mysql.connector.connect(
             host="localhost",
             user="root",
-            password="a1b2c3d4_",
+            password="q2e4t6@", #cambie la contraseña del conector para que me sirviera
             database="sistema_cultivos"
     )
 

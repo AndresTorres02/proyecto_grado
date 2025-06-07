@@ -1,6 +1,6 @@
 import flet as ft
 
-def menu_principal(page: ft.Page, go_to_info):
+def menu_principal(page: ft.Page, go_to_info, debug_go_to_crud):
 
     def ir_a_info_detallada(e):
         go_to_info()
@@ -13,87 +13,17 @@ def menu_principal(page: ft.Page, go_to_info):
         page.go("/")
 
     # Datos del usuario
-    usuario = page.session.get("usuario") or {
-        "nombre": "andres torres",
-        "correo": "aftm@gmail.com",
-        "telefono": "+57 123 456 7890"
-    }
-
-    # TextFields ocultos al inicio
-    nombre_field = ft.TextField(value=usuario["nombre"], color="black", visible=False)
-    correo_field = ft.TextField(value=usuario["correo"], color="black", visible=False)
-    telefono_field = ft.TextField(value=usuario["telefono"], color="black", visible=False)
+    usuario = page.session.get("usuario") ## le he quitado el or 
 
     nombre_text = ft.Text(usuario["nombre"], color="black")
     correo_text = ft.Text(usuario["correo"], color="black")
     telefono_text = ft.Text(usuario["telefono"], color="black")
 
-    # Estados
-    estado = {"nombre": False, "correo": False, "telefono": False}
-
-    def toggle_edicion(campo):
-        def handler(e):
-            estado[campo] = not estado[campo]
-
-            if campo == "nombre":
-                nombre_field.visible = estado[campo]
-                nombre_text.visible = not estado[campo]
-                boton_nombre.icon = ft.icons.SAVE if estado[campo] else ft.icons.EDIT
-            elif campo == "correo":
-                correo_field.visible = estado[campo]
-                correo_text.visible = not estado[campo]
-                boton_correo.icon = ft.icons.SAVE if estado[campo] else ft.icons.EDIT
-            elif campo == "telefono":
-                telefono_field.visible = estado[campo]
-                telefono_text.visible = not estado[campo]
-                boton_telefono.icon = ft.icons.SAVE if estado[campo] else ft.icons.EDIT
-
-            page.update()
-        return handler
-
-    def guardar_cambios(e):
-        usuario["nombre"] = nombre_field.value
-        usuario["correo"] = correo_field.value
-        usuario["telefono"] = telefono_field.value
-
-        nombre_text.value = usuario["nombre"]
-        correo_text.value = usuario["correo"]
-        telefono_text.value = usuario["telefono"]
-
-        page.session.set("usuario", usuario)
-
-        page.snack_bar = ft.SnackBar(ft.Text("Información actualizada"))
-        page.snack_bar.open = True
-        page.update()
-
-    boton_nombre = ft.Image(
-        src="imagenes/pen.png", 
-        width=25,
-        height=25
-    )
-    boton_nombre.on_click = toggle_edicion("nombre")
-
-    boton_correo = ft.Image(
-        src="imagenes/pen.png",
-        width=25,
-        height=25
-    )
-    boton_correo.on_click = toggle_edicion("correo")
-
-    boton_telefono = ft.Image(
-        src="imagenes/pen.png",
-        width=25,
-        height=25
-    )
-    boton_telefono.on_click = toggle_edicion("telefono")
-
-    # Fila nombre
+    # Fila nombre (se modifica para un boton de edicion)
     fila_nombre = ft.Row(
         [
             ft.Image(src="imagenes/label.png", width=25, height=25),
-            nombre_text,
-            nombre_field,
-            boton_nombre
+            nombre_text
         ],
         spacing=10
     )
@@ -103,9 +33,7 @@ def menu_principal(page: ft.Page, go_to_info):
         [
             ft.Image(src="imagenes/email.png", width=25, height=25),
             correo_text,
-            correo_field,
-            boton_correo
-        ],
+            ],
         spacing=10
     )
 
@@ -114,19 +42,15 @@ def menu_principal(page: ft.Page, go_to_info):
         [
             ft.Image(src="imagenes/telephone.png", width=25, height=25),
             telefono_text,
-            telefono_field,
-            boton_telefono
         ],
         spacing=10
     )
 
-    # Imagen que actúa como botón de guardar
-    boton_guardar = ft.Image(
-        src="imagenes/diskette.png",
-        width=35,
-        height=35
+    boton_ir_a_crud = ft.ElevatedButton(
+        "editar info",
+        on_click=debug_go_to_crud,
+        icon=ft.Icons.EDIT
     )
-    boton_guardar.on_click = guardar_cambios
 
     columna_izquierda = ft.Column(
         [
@@ -134,7 +58,7 @@ def menu_principal(page: ft.Page, go_to_info):
             fila_nombre,
             fila_correo,
             fila_telefono,
-            boton_guardar
+            boton_ir_a_crud
         ],
         spacing=15
     )
