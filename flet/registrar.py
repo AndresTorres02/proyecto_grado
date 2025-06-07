@@ -5,11 +5,22 @@ def registrar_view(page: ft.Page, volver_login):
     def regresar(e):
         volver_login()
 
+
+    titulo = ft.Text("Crear cuenta", size=30, color="Black", weight=ft.FontWeight.BOLD)
+    correo = ft.TextField(label="Escribe tu correo", label_style=ft.TextStyle(color="Black"))
+    nombre = ft.TextField(label="Escribe tu nombre completo", label_style=ft.TextStyle(color="black"))
+    telefono = ft.TextField(label="Escribe tu numero de telefono", label_style=ft.TextStyle(color="black"))
+    contraseña = ft.TextField(label="Escribe tu contraseña", password=True, label_style=ft.TextStyle(color="black"))
+    confirmar = ft.TextField(label="Confirmar contraseña", password=True, label_style=ft.TextStyle(color="black"))
+    crear = ft.FilledButton(text="CREAR", color="Black")
+    volver = ft.FilledButton(text="Volver al Login", color="Black", on_click=regresar)
+
+
     def conectar_bd():
         return mysql.connector.connect(
             host="localhost",
             user="root",
-            password="a1b2c3d4_",
+            password="q2e4t6@",
             database="sistema_cultivos"
         )
 
@@ -82,8 +93,8 @@ def registrar_view(page: ft.Page, volver_login):
             conn = conectar_bd()
             cursor = conn.cursor()
 
-            query = "INSERT INTO usuarios (nombre, correo, contraseña) VALUES (%s, %s, %s)"
-            cursor.execute(query, (nombre.value, correo.value, contraseña.value))
+            query = "INSERT INTO usuarios (nombre, correo, telefono, contraseña) VALUES (%s, %s, %s, %s)"
+            cursor.execute(query, (nombre.value, correo.value, telefono.value, contraseña.value))
             conn.commit()
 
             limpiar_campos()
@@ -116,6 +127,7 @@ def registrar_view(page: ft.Page, volver_login):
     )
     page.dialog = dialog
 
+
     # Campos del formulario y helpers
     titulo = ft.Text("Crear cuenta", size=30, color="white", weight=ft.FontWeight.BOLD)
 
@@ -131,10 +143,19 @@ def registrar_view(page: ft.Page, volver_login):
     confirmar_helper = ft.Text("", size=12, color="red")
     confirmar = ft.TextField(label="Confirmar contraseña", password=True, color="black", label_style=ft.TextStyle(color="black"), border_color="grey")
 
+
+    titulo = ft.Text("Crear cuenta", size=30, color="Black", weight=ft.FontWeight.BOLD)
+    correo = ft.TextField(label="Escribe tu correo", color="black", label_style=ft.TextStyle(color="black"))
+    nombre = ft.TextField(label="Escribe tu nombre completo", color="black", label_style=ft.TextStyle(color="black"))
+    telefono = ft.TextField(label="Escribe tu numero de telefono", color="black", label_style=ft.TextStyle(color="black"))
+    contraseña = ft.TextField(label="Escribe tu contraseña", password=True, color="black", label_style=ft.TextStyle(color="black"))
+    confirmar = ft.TextField(label="Confirmar contraseña", password=True, color="black", label_style=ft.TextStyle(color="black"))
+
     crear = ft.FilledButton(text="CREAR", on_click=registrar_usuario)
     volver = ft.FilledButton(text="Volver al Login", on_click=regresar)
 
     contenido = ft.Column(
+
         [
             titulo,
             correo,
@@ -148,6 +169,9 @@ def registrar_view(page: ft.Page, volver_login):
             crear,
             volver
         ],
+
+        [titulo, correo, nombre, telefono, contraseña, confirmar, crear, volver],
+
         alignment=ft.MainAxisAlignment.CENTER,
         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         scroll=ft.ScrollMode.AUTO

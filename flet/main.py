@@ -3,6 +3,7 @@ from login import login_view
 from registrar import registrar_view
 from mainmenu import menu_principal
 from infodetallada import info_detallada
+from  crud_user import crud_user 
 
 def main(page: ft.Page):
     page.window.width = 400        
@@ -16,7 +17,12 @@ def main(page: ft.Page):
         if page.route == "/registrar":
             page.views.append(registrar_view(page, volver_login=lambda: page.go("/")))
         elif page.route == "/menu":
-            page.views.append(menu_principal(page, go_to_info=lambda: page.go("/info")))
+            page.views.append(menu_principal(page, 
+                                            lambda e: page.go("/info"),# go to info
+                                            lambda e: page.go("/crud_user"))) #go to crud_user
+        elif page.route == "/crud_user":
+            page.views.append(crud_user(page, volver_al_menu=lambda e: page.go("/menu")))
+
         elif page.route == "/info":
             page.views.append(info_detallada(page))
         else:

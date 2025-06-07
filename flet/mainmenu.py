@@ -1,6 +1,6 @@
 import flet as ft
 
-def menu_principal(page: ft.Page, go_to_info):
+def menu_principal(page: ft.Page, go_to_info, debug_go_to_crud):
 
     def ir_a_info_detallada(e):
         go_to_info()
@@ -12,6 +12,7 @@ def menu_principal(page: ft.Page, go_to_info):
         page.update()
         page.go("/")
 
+
     usuario = page.session.get("usuario") or {
         "nombre": "andres torres",
         "correo": "aftm@gmail.com",
@@ -22,9 +23,14 @@ def menu_principal(page: ft.Page, go_to_info):
     correo_field = ft.TextField(value=usuario["correo"], color="black", visible=False)
     telefono_field = ft.TextField(value=usuario["telefono"], color="black", visible=False)
 
+    # Datos del usuario
+    usuario = page.session.get("usuario") ## le he quitado el or 
+
+
     nombre_text = ft.Text(usuario["nombre"], color="black")
     correo_text = ft.Text(usuario["correo"], color="black")
     telefono_text = ft.Text(usuario["telefono"], color="black")
+
 
     estado = {"nombre": False, "correo": False, "telefono": False}
 
@@ -84,12 +90,13 @@ def menu_principal(page: ft.Page, go_to_info):
     )
     boton_telefono.on_click = toggle_edicion("telefono")
 
+
+    # Fila nombre (se modifica para un boton de edicion)
+
     fila_nombre = ft.Row(
         [
             ft.Image(src="imagenes/label.png", width=25, height=25),
-            nombre_text,
-            nombre_field,
-            boton_nombre
+            nombre_text
         ],
         spacing=10
     )
@@ -98,9 +105,7 @@ def menu_principal(page: ft.Page, go_to_info):
         [
             ft.Image(src="imagenes/email.png", width=25, height=25),
             correo_text,
-            correo_field,
-            boton_correo
-        ],
+            ],
         spacing=10
     )
 
@@ -108,18 +113,23 @@ def menu_principal(page: ft.Page, go_to_info):
         [
             ft.Image(src="imagenes/telephone.png", width=25, height=25),
             telefono_text,
-            telefono_field,
-            boton_telefono
         ],
         spacing=10
     )
+
 
     boton_guardar = ft.Image(
         src="imagenes/diskette.png",
         width=35,
         height=35
+        )
+
+    boton_ir_a_crud = ft.ElevatedButton(
+        "editar info",
+        on_click=debug_go_to_crud,
+        icon=ft.Icons.EDIT
+
     )
-    boton_guardar.on_click = guardar_cambios
 
     columna_izquierda = ft.Column(
         [
@@ -127,7 +137,7 @@ def menu_principal(page: ft.Page, go_to_info):
             fila_nombre,
             fila_correo,
             fila_telefono,
-            boton_guardar
+            boton_ir_a_crud
         ],
         spacing=15
     )
