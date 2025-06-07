@@ -5,7 +5,7 @@ import flet as ft
 import mysql.connector
 
 # Función principal que crea la vista de login
-def login_view(page: ft.Page, go_to_registrar, go_to_menu):
+def login_view(page: ft.Page, go_to_registrar, go_to_menu, go_to_reset):
     
     # Función que navega hacia la vista de registro cuando se presiona el botón "Regístrate"
     def ir_a_registro(e):
@@ -19,6 +19,9 @@ def login_view(page: ft.Page, go_to_registrar, go_to_menu):
             password="a1b2c3d4_",         # Contraseña del usuario
             database="sistema_cultivos"  # Nombre de la base de datos
         )
+
+    def ir_a_recuperacion(e):
+        go_to_reset()
 
     # Campo para ingresar el correo electrónico
     correo = ft.TextField(label="Escribe tu correo", text_style=ft.TextStyle(color="black"), border_color="black")
@@ -104,7 +107,22 @@ def login_view(page: ft.Page, go_to_registrar, go_to_menu):
 
     # Contenedor con todos los controles de la vista
     contenido = ft.Column(
-        [titulo, correo, correo_error, contraseña, contraseña_error, loguear, registrar],
+        [titulo, 
+         correo, 
+         correo_error, 
+         contraseña, 
+         contraseña_error, 
+         loguear,
+         ft.TextButton(
+         text="¿Olvidaste la contraseña?",
+         style=ft.ButtonStyle(
+            color="blue",
+            overlay_color="transparent",
+            text_style=ft.TextStyle(decoration=ft.TextDecoration.UNDERLINE)
+            ),
+            on_click=ir_a_recuperacion
+        ),
+        registrar],
         alignment=ft.MainAxisAlignment.CENTER,              # Alineación vertical centrada
         horizontal_alignment=ft.CrossAxisAlignment.CENTER   # Alineación horizontal centrada
     )

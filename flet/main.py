@@ -3,6 +3,7 @@ from login import login_view  # Importa la vista de inicio de sesión
 from registrar import registrar_view  # Importa la vista de registro de usuarios
 from mainmenu import menu_principal  # Importa el menú principal de la aplicación
 from infodetallada import info_detallada  # Importa la vista de información detallada del cultivo
+from resetcontraseña import reset_contraseña_view
 
 # Función principal que se ejecuta al iniciar la aplicación
 def main(page: ft.Page):
@@ -26,12 +27,15 @@ def main(page: ft.Page):
         elif page.route == "/info":
             # Vista de información detallada del cultivo
             page.views.append(info_detallada(page))
+        elif page.route == "/reset":
+            page.views.append(reset_contraseña_view(page, volver_login=lambda: page.go("/")))
         else:
             # Vista por defecto (login), con navegación a registrar o al menú
             page.views.append(login_view(
                 page,
                 go_to_registrar=lambda: page.go("/registrar"),
-                go_to_menu=lambda: page.go("/menu")
+                go_to_menu=lambda: page.go("/menu"),
+                go_to_reset=lambda: page.go("/reset")
             ))
 
         page.update()  # Se actualiza la página con la nueva vista

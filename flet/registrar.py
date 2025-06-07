@@ -73,6 +73,18 @@ def registrar_view(page: ft.Page, volver_login):
         else:
             confirmar.border_color = "grey"
 
+        if not pregunta_seguridad.value:
+            pregunta_seguridad.border_color = "red"
+            vacio = True
+        else:
+            pregunta_seguridad.border_color = "grey"
+
+        if not respuesta_seguridad.value:
+            respuesta_seguridad.border_color = "red"
+            vacio = True
+        else:
+            respuesta_seguridad.border_color = "grey"
+
         # Si hay algún campo vacío, se detiene la ejecución
         if vacio:
             page.update()
@@ -93,8 +105,15 @@ def registrar_view(page: ft.Page, volver_login):
             cursor = conn.cursor()
 
             # Inserta los datos del usuario
-            query = "INSERT INTO usuarios (nombre, correo, contraseña) VALUES (%s, %s, %s)"
-            cursor.execute(query, (nombre.value, correo.value, contraseña.value))
+            query = "INSERT INTO usuarios (nombre, correo, contraseña, pregunta, info_pregunta) VALUES (%s, %s, %s, %s, %s)"
+            cursor.execute(query, (
+                nombre.value,
+                correo.value,
+                contraseña.value,
+                pregunta_seguridad.value,
+                respuesta_seguridad.value.lower()
+            ))
+
             conn.commit()  # Guarda los cambios
 
             limpiar_campos()  # Limpia los campos luego de registrar
@@ -143,6 +162,27 @@ def registrar_view(page: ft.Page, volver_login):
     nombre_helper = ft.Text("", size=12, color="red")
     nombre = ft.TextField(label="Escribe tu nombre completo", color="black", label_style=ft.TextStyle(color="black"), border_color="grey")
 
+    # Preguntas de seguridad (Dropdown)
+    pregunta_seguridad = ft.Dropdown(
+        label="Selecciona una pregunta de seguridad",
+        options=[
+            ft.dropdown.Option("¿Cuál es el nombre de tu primera mascota?"),
+            ft.dropdown.Option("¿En qué ciudad naciste?"),
+            ft.dropdown.Option("¿Cuál es tu comida favorita?"),
+            ft.dropdown.Option("¿Cuál es el segundo nombre de tu madre?"),
+            ft.dropdown.Option("¿Cuál fue el nombre de tu primera escuela?")
+        ],
+        border_color="grey"
+    )
+
+    # Campo para responder la pregunta
+    respuesta_seguridad = ft.TextField(
+        label="Escribe tu respuesta",
+        color="black",
+        label_style=ft.TextStyle(color="black"),
+        border_color="grey"
+    )
+
     # Campo de contraseña y mensaje de error
     contra_helper = ft.Text("", size=12, color="red")
     contraseña = ft.TextField(label="Escribe tu contraseña", password=True, color="black", label_style=ft.TextStyle(color="black"), border_color="grey")
@@ -167,6 +207,8 @@ def registrar_view(page: ft.Page, volver_login):
             contra_helper,
             confirmar,
             confirmar_helper,
+            pregunta_seguridad,
+            respuesta_seguridad,
             crear,
             volver
         ],
