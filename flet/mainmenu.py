@@ -1,12 +1,8 @@
 # Importamos la biblioteca Flet
 import flet as ft
 
-<<<<<<< HEAD
 def menu_principal(page: ft.Page, go_to_info, debug_go_to_crud):
-=======
-# Función principal que renderiza el menú principal
-def menu_principal(page: ft.Page, go_to_info):
->>>>>>> 7fcb58fd10fa722827482884221f1baf57388bcb
+
 
     # Función para navegar a la pantalla de información detallada
     def ir_a_info_detallada(e):
@@ -20,11 +16,8 @@ def menu_principal(page: ft.Page, go_to_info):
         page.update()
         page.go("/")  # Redirige al inicio
 
-<<<<<<< HEAD
 
-=======
     # Recupera la información del usuario desde la sesión, o usa valores por defecto si no existe
->>>>>>> 7fcb58fd10fa722827482884221f1baf57388bcb
     usuario = page.session.get("usuario") or {
         "nombre": "andres torres",
         "correo": "aftm@gmail.com",
@@ -36,23 +29,17 @@ def menu_principal(page: ft.Page, go_to_info):
     correo_field = ft.TextField(value=usuario["correo"], color="black", visible=False)
     telefono_field = ft.TextField(value=usuario["telefono"], color="black", visible=False)
 
-<<<<<<< HEAD
     # Datos del usuario
     usuario = page.session.get("usuario") ## le he quitado el or 
 
 
-=======
     # Textos visibles para mostrar la información del usuario
->>>>>>> 7fcb58fd10fa722827482884221f1baf57388bcb
     nombre_text = ft.Text(usuario["nombre"], color="black")
     correo_text = ft.Text(usuario["correo"], color="black")
     telefono_text = ft.Text(usuario["telefono"], color="black")
 
-<<<<<<< HEAD
 
-=======
     # Diccionario que guarda el estado de edición de cada campo
->>>>>>> 7fcb58fd10fa722827482884221f1baf57388bcb
     estado = {"nombre": False, "correo": False, "telefono": False}
 
     # Función que permite alternar entre mostrar texto o campo editable
@@ -107,13 +94,12 @@ def menu_principal(page: ft.Page, go_to_info):
     boton_telefono = ft.Image(src="imagenes/pen.png", width=25, height=25)
     boton_telefono.on_click = toggle_edicion("telefono")
 
-<<<<<<< HEAD
 
     # Fila nombre (se modifica para un boton de edicion)
 
-=======
+
     # Fila para mostrar/editar el nombre
->>>>>>> 7fcb58fd10fa722827482884221f1baf57388bcb
+
     fila_nombre = ft.Row(
         [
             ft.Image(src="imagenes/label.png", width=25, height=25),
@@ -140,7 +126,6 @@ def menu_principal(page: ft.Page, go_to_info):
         spacing=10
     )
 
-<<<<<<< HEAD
 
     boton_guardar = ft.Image(
         src="imagenes/diskette.png",
@@ -154,11 +139,9 @@ def menu_principal(page: ft.Page, go_to_info):
         icon=ft.Icons.EDIT
 
     )
-=======
     # Botón para guardar cambios (ícono de disquete)
     boton_guardar = ft.Image(src="imagenes/diskette.png", width=35, height=35)
     boton_guardar.on_click = guardar_cambios
->>>>>>> 7fcb58fd10fa722827482884221f1baf57388bcb
 
     # Columna con toda la información del usuario y el botón de guardar
     columna_izquierda = ft.Column(

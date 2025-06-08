@@ -1,18 +1,10 @@
-<<<<<<< HEAD
 import flet as ft
 from login import login_view
 from registrar import registrar_view
 from mainmenu import menu_principal
 from infodetallada import info_detallada
 from  crud_user import crud_user 
-=======
-import flet as ft  # Importa la biblioteca Flet para construir la interfaz de la aplicación
-from login import login_view  # Importa la vista de inicio de sesión
-from registrar import registrar_view  # Importa la vista de registro de usuarios
-from mainmenu import menu_principal  # Importa el menú principal de la aplicación
-from infodetallada import info_detallada  # Importa la vista de información detallada del cultivo
 from resetcontraseña import reset_contraseña_view
->>>>>>> 7fcb58fd10fa722827482884221f1baf57388bcb
 
 # Función principal que se ejecuta al iniciar la aplicación
 def main(page: ft.Page):
@@ -31,17 +23,14 @@ def main(page: ft.Page):
             # Vista de registro con opción de volver al login
             page.views.append(registrar_view(page, volver_login=lambda: page.go("/")))
         elif page.route == "/menu":
-<<<<<<< HEAD
             page.views.append(menu_principal(page, 
                                             lambda e: page.go("/info"),# go to info
                                             lambda e: page.go("/crud_user"))) #go to crud_user
         elif page.route == "/crud_user":
             page.views.append(crud_user(page, volver_al_menu=lambda e: page.go("/menu")))
 
-=======
             # Vista del menú principal con opción de ir a la información detallada
             page.views.append(menu_principal(page, go_to_info=lambda: page.go("/info")))
->>>>>>> 7fcb58fd10fa722827482884221f1baf57388bcb
         elif page.route == "/info":
             # Vista de información detallada del cultivo
             page.views.append(info_detallada(page))

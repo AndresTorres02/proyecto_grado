@@ -14,17 +14,10 @@ def login_view(page: ft.Page, go_to_registrar, go_to_menu, go_to_reset):
     # Función para establecer la conexión con la base de datos MySQL
     def conectar_bd():
         return mysql.connector.connect(
-<<<<<<< HEAD
             host="localhost",
             user="root",
             password="q2e4t6@", #cambie la contraseña del conector para que me sirviera
             database="sistema_cultivos"
-=======
-            host="localhost",             # Dirección del servidor de base de datos
-            user="root",                  # Usuario de la base de datos
-            password="a1b2c3d4_",         # Contraseña del usuario
-            database="sistema_cultivos"  # Nombre de la base de datos
->>>>>>> 7fcb58fd10fa722827482884221f1baf57388bcb
         )
 
     def ir_a_recuperacion(e):
