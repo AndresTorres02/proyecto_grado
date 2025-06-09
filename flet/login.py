@@ -16,7 +16,7 @@ def login_view(page: ft.Page, go_to_registrar, go_to_menu, go_to_reset):
         return mysql.connector.connect(
             host="localhost",
             user="root",
-            password="q2e4t6@", #cambie la contraseña del conector para que me sirviera
+            password="a1b2c3d4_", #cambie la contraseña del conector para que me sirviera
             database="sistema_cultivos"
         )
 
@@ -133,13 +133,13 @@ def login_view(page: ft.Page, go_to_registrar, go_to_menu, go_to_reset):
         controls=[
             ft.Container(
                 width=400,
-                height=800,
+                height=680,
                 content=ft.Stack([  # Se apilan elementos uno sobre otro
                     ft.Image(
                         src="imagenes/fondo.jpg",  # Imagen de fondo
                         fit=ft.ImageFit.COVER,
                         width=400,
-                        height=800
+                        height=680
                     ),
                     ft.Container(content=contenido, padding=30)  # Contenido encima del fondo
                 ])

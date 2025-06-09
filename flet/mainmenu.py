@@ -126,7 +126,6 @@ def menu_principal(page: ft.Page, go_to_info, debug_go_to_crud):
         spacing=10
     )
 
-
     boton_guardar = ft.Image(
         src="imagenes/diskette.png",
         width=35,
@@ -194,30 +193,30 @@ def menu_principal(page: ft.Page, go_to_info, debug_go_to_crud):
 
     # Fondo principal de la vista con imagen de fondo, contenido y botón de cerrar sesión
     fondo = ft.Stack([
-        ft.Image(  # Imagen de fondo
+        ft.Image(
             src="imagenes/fondo.jpg",
             fit=ft.ImageFit.COVER,
             width=400,
-            height=800
+            height=680
         ),
-        ft.Container(  # Contenedor principal del contenido
+        ft.Container(
+            width=400,
+            height=680,
             content=ft.Column(
                 [
                     fila_contenido,
-                    ft.Container(height=25),  # Espacio entre secciones
-                    registros_fila
+                    ft.Container(height=25),
+                    registros_fila,
+                    ft.Container(height=30),
+                    boton_cerrar_sesion
                 ],
-                spacing=10,
-                alignment=ft.MainAxisAlignment.SPACE_BETWEEN
+                scroll=ft.ScrollMode.AUTO,  # Habilita scroll si el contenido excede
             ),
-            padding=20
-        ),
-        ft.Container(  # Contenedor para el botón de cerrar sesión
-            content=boton_cerrar_sesion,
-            left=20,
-            bottom=60
+            padding=20,
+            alignment=ft.alignment.top_left,
         )
     ])
+
 
     # Devuelve la vista completa del menú principal
     return ft.View(
@@ -225,8 +224,9 @@ def menu_principal(page: ft.Page, go_to_info, debug_go_to_crud):
         controls=[
             ft.Container(
                 width=400,
-                height=800,
+                height=680,
                 content=fondo
             )
-        ]
+        ],
+        #scroll=ft.ScrollMode.AUTO
     )

@@ -10,7 +10,7 @@ from resetcontraseña import reset_contraseña_view
 def main(page: ft.Page):
     # Configura el tamaño de la ventana de la aplicación
     page.window.width = 400        # Ancho fijo de la ventana
-    page.window.height = 800       # Alto fijo de la ventana
+    page.window.height = 680       # Alto fijo de la ventana
     page.window.resizable = False  # La ventana no se puede redimensionar
     page.update()                  # Actualiza la interfaz para aplicar los cambios
 

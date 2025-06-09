@@ -8,7 +8,7 @@ def obtener_conexion():
         return mysql.connector.connect(
             host="localhost",
             user="root",
-            password="q2e4t6@", # cambio de contraseña para tu bd
+            password="a1b2c3d4_", # cambio de contraseña para tu bd
             database="sistema_cultivos" 
         )
     except mysql.connector.Error as err:
