@@ -33,7 +33,7 @@ def main(page: ft.Page):
             page.views.append(crud_user(page, volver_al_menu=lambda e: page.go("/menu")))
 
             # Vista del menú principal con opción de ir a la información detallada
-            page.views.append(menu_principal(page, go_to_info=lambda: page.go("/info")))
+            #page.views.append(menu_principal(page, go_to_info=lambda: page.go("/info")))
         elif page.route == "/info":
             # Vista de información detallada del cultivo
             page.views.append(info_detallada(page))
