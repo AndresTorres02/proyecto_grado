@@ -23,9 +23,12 @@ def main(page: ft.Page):
             # Vista de registro con opción de volver al login
             page.views.append(registrar_view(page, volver_login=lambda: page.go("/")))
         elif page.route == "/menu":
-            page.views.append(menu_principal(page, 
-                                            lambda e: page.go("/info"),# go to info
-                                            lambda e: page.go("/crud_user"))) #go to crud_user
+            page.views.append(menu_principal(
+                page,
+                go_to_info=lambda: page.go("/info"),  # ir a la vista de info detallada
+                debug_go_to_crud=lambda e: page.go("/crud_user")  # ir a la vista de crud_user
+            ))
+
         elif page.route == "/crud_user":
             page.views.append(crud_user(page, volver_al_menu=lambda e: page.go("/menu")))
 

@@ -3,7 +3,6 @@ import flet as ft
 
 def menu_principal(page: ft.Page, go_to_info, debug_go_to_crud):
 
-
     # Función para navegar a la pantalla de información detallada
     def ir_a_info_detallada(e):
         go_to_info()
