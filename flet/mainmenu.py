@@ -2,11 +2,8 @@ import flet as ft
 from abrircamara import abrir_camara
 
 
-<<<<<<< HEAD
 def menu_principal(page: ft.Page, go_to_info, go_to_crud, go_to_abrir_camara):
 
-=======
->>>>>>> 53832e9d23a7e18c6e9715edab70962e14b68e6b
     # Función para navegar a la pantalla de información detallada
     def ir_a_info_detallada(e):
         go_to_info()
@@ -107,10 +104,7 @@ def menu_principal(page: ft.Page, go_to_info, go_to_crud, go_to_abrir_camara):
         spacing=10
     )
 
-<<<<<<< HEAD
     # Botón para guardar cambios (icono disquete)
-=======
->>>>>>> 53832e9d23a7e18c6e9715edab70962e14b68e6b
     boton_guardar = ft.Image(
         src="imagenes/diskette.png",
         width=35,
@@ -204,26 +198,14 @@ def menu_principal(page: ft.Page, go_to_info, go_to_crud, go_to_abrir_camara):
             height=680
         ),
         ft.Container(
-<<<<<<< HEAD
-=======
-            width=400,
-            height=680,
->>>>>>> 53832e9d23a7e18c6e9715edab70962e14b68e6b
             content=ft.Column(
                 [
                     fila_contenido,
                     ft.Container(height=25),
-<<<<<<< HEAD
                     registros_fila
-=======
-                    registros_fila,
-                    ft.Container(height=30),
-                    boton_cerrar_sesion
->>>>>>> 53832e9d23a7e18c6e9715edab70962e14b68e6b
                 ],
                 scroll=ft.ScrollMode.AUTO,  # Habilita scroll si el contenido excede
             ),
-<<<<<<< HEAD
             padding=20
         ),
         ft.Container(
@@ -235,15 +217,6 @@ def menu_principal(page: ft.Page, go_to_info, go_to_crud, go_to_abrir_camara):
     ])
 
     # Devuelve la vista principal
-=======
-            padding=20,
-            alignment=ft.alignment.top_left,
-        )
-    ])
-
-
-    # Devuelve la vista completa del menú principal
->>>>>>> 53832e9d23a7e18c6e9715edab70962e14b68e6b
     return ft.View(
         route="/menu",
         controls=[
