@@ -5,6 +5,7 @@ from mainmenu import menu_principal
 from infodetallada import info_detallada
 from  crud_user import crud_user 
 from resetcontraseña import reset_contraseña_view
+from abrircamara import abrir_camara
 
 # Función principal que se ejecuta al iniciar la aplicación
 def main(page: ft.Page):
@@ -23,14 +24,22 @@ def main(page: ft.Page):
             # Vista de registro con opción de volver al login
             page.views.append(registrar_view(page, volver_login=lambda: page.go("/")))
         elif page.route == "/menu":
-            page.views.append(menu_principal(page, 
-                                            lambda e: page.go("/info"),# go to info
-                                            lambda e: page.go("/crud_user"))) #go to crud_user
+            vista_menu = menu_principal(
+                page,
+                lambda e: page.go("/info"),       # go_to_info
+                lambda e: page.go("/crud_user"),  # go_to_crud_user
+                lambda e: page.go("/abrir_camara")# go_to_abrircamara
+            )
+            page.views.append(vista_menu)
+
+                                            
         elif page.route == "/crud_user":
             page.views.append(crud_user(page, volver_al_menu=lambda e: page.go("/menu")))
 
-            # Vista del menú principal con opción de ir a la información detallada
-            page.views.append(menu_principal(page, go_to_info=lambda: page.go("/info")))
+        elif page.route == "/abrir_camara":
+            page.views.append(abrir_camara(page, lambda e: page.go("/menu")) # go_to_abrircamara
+                             )
+
         elif page.route == "/info":
             # Vista de información detallada del cultivo
             page.views.append(info_detallada(page))

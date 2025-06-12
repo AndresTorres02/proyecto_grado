@@ -3,7 +3,7 @@
 import mysql.connector
 
 def obtener_conexion():
-    """Establece y retorna una conexión a la base de datos MySQL."""
+    # Establece y retorna una conexión a la base de datos MySQL.
     try:
         return mysql.connector.connect(
             host="localhost",
