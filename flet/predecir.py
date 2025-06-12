@@ -1,5 +1,4 @@
 import tensorflow as tf
-print(tf.__version__)
 import numpy as np
 
 # Cargar el modelo entrenado
@@ -20,8 +19,4 @@ def predecir_imagen(img_path):
     predicted_class = class_names[np.argmax(preds)]
     confidence = np.max(preds) * 100
 
-    print(f"La imagen '{img_path}' fue clasificada como: {predicted_class} ({confidence:.2f}% de confianza)")
-
-# Prueba con una imagen de piña
-img_path = "C:\\Users\\FELIPE\\Desktop\\Uceva\\Semestre X\\Proyecto\\dataset\\sana1.jpg"  # Cambia esto por la imagen a probar
-predecir_imagen(img_path)
+    return predicted_class, confidence

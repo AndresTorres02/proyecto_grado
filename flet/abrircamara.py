@@ -1,11 +1,13 @@
 import flet as ft
 import cv2
 import tempfile
+from predecir import predecir_imagen
 import os
 
 def abrir_camara(page: ft.Page, go_back):
 
     img_control = ft.Image()
+    ruta_ultima_imagen = ""
 
     carpeta_imagenes = os.path.join(os.getcwd(), "imagenes_tomadas")
     os.makedirs(carpeta_imagenes, exist_ok=True)
@@ -17,6 +19,8 @@ def abrir_camara(page: ft.Page, go_back):
         return os.path.join(carpeta_imagenes, f"{siguiente_numero}.jpg")
 
     def tomar_foto(e):
+        nonlocal ruta_ultima_imagen
+
         cap = cv2.VideoCapture(0)
         if not cap.isOpened():
             page.snack_bar = ft.SnackBar(ft.Text("No se pudo acceder a la cámara."))
@@ -43,10 +47,18 @@ def abrir_camara(page: ft.Page, go_back):
             page.update()
 
     def aceptar_foto(e):
-        page.snack_bar = ft.SnackBar(ft.Text("Foto aceptada."))
+        if ruta_ultima_imagen and os.path.exists(ruta_ultima_imagen):
+            prediccion, confianza = predecir_imagen(ruta_ultima_imagen)
+            page.snack_bar = ft.SnackBar(
+                ft.Text(f"Resultado: {prediccion} ({confianza:.2f}% de confianza)")
+            )
+        else:
+            page.snack_bar = ft.SnackBar(
+                ft.Text("No se encontró la imagen para analizar.")
+            )
         page.snack_bar.open = True
         page.update()
-        go_back()  # vuelve a menu 
+        go_back() 
 
     def tomar_otra(e):
         contenedor_foto.visible = False

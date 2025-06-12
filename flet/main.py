@@ -3,7 +3,7 @@ from login import login_view
 from registrar import registrar_view
 from mainmenu import menu_principal
 from infodetallada import info_detallada
-from  crud_user import crud_user 
+from crud_user import crud_user 
 from resetcontraseña import reset_contraseña_view
 from abrircamara import abrir_camara
 
