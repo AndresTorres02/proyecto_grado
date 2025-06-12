@@ -170,8 +170,10 @@ def menu_principal(page: ft.Page, go_to_info, go_to_crud, go_to_abrir_camara):
 
     #boton cámara
     boton_camara = ft.Container(
-        alignment=ft.alignment.bottom_center,
-        margin=ft.margin.only(bottom=20),
+        bottom=110,  # más cerca del borde inferior
+        left=110,
+        width=130,  # ligeramente más grande que la imagen
+        height=130,
         content=ft.IconButton(
             on_click=go_to_abrir_camara,  # Usa la función pasada desde main
             icon=None,
@@ -195,7 +197,8 @@ def menu_principal(page: ft.Page, go_to_info, go_to_crud, go_to_abrir_camara):
             src="imagenes/fondo.jpg",
             fit=ft.ImageFit.COVER,
             width=400,
-            height=680
+            height=680,
+            expand=True
         ),
         ft.Container(
             content=ft.Column(
