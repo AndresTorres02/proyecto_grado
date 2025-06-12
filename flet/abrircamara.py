@@ -5,10 +5,16 @@ import os
 
 def abrir_camara(page: ft.Page, go_back):
 
-
     img_control = ft.Image()
-    temp_dir = tempfile.gettempdir()
-    temp_image_path = os.path.join(temp_dir, "captura.jpg")
+
+    carpeta_imagenes = os.path.join(os.getcwd(), "imagenes_tomadas")
+    os.makedirs(carpeta_imagenes, exist_ok=True)
+
+    def generar_nombre_imagen():
+        archivos = os.listdir(carpeta_imagenes)
+        numeros = [int(f.split(".")[0]) for f in archivos if f.endswith(".jpg") and f.split(".")[0].isdigit()]
+        siguiente_numero = max(numeros) + 1 if numeros else 1
+        return os.path.join(carpeta_imagenes, f"{siguiente_numero}.jpg")
 
     def tomar_foto(e):
         cap = cv2.VideoCapture(0)
@@ -22,8 +28,9 @@ def abrir_camara(page: ft.Page, go_back):
         cap.release()
 
         if ret:
-            cv2.imwrite(temp_image_path, frame)
-            img_control.src = temp_image_path
+            nombre_imagen = generar_nombre_imagen()
+            cv2.imwrite(nombre_imagen, frame)
+            img_control.src = nombre_imagen
             img_control.update()
             contenedor_foto.visible = True
             btn_tomar.visible = False

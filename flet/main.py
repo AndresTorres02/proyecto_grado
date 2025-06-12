@@ -37,7 +37,7 @@ def main(page: ft.Page):
             page.views.append(crud_user(page, volver_al_menu=lambda e: page.go("/menu")))
 
         elif page.route == "/abrir_camara":
-            page.views.append(abrir_camara(page, lambda e: page.go("/menu")))
+            page.views.append(abrir_camara(page, lambda: page.go("/menu")))
 
         elif page.route == "/crud_user":
             page.views.append(crud_user(page, volver_al_menu=lambda e: page.go("/menu")))
