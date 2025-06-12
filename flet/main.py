@@ -24,7 +24,6 @@ def main(page: ft.Page):
             # Vista de registro con opción de volver al login
             page.views.append(registrar_view(page, volver_login=lambda: page.go("/")))
         elif page.route == "/menu":
-<<<<<<< HEAD
             vista_menu = menu_principal(
                 page,
                 lambda e: page.go("/info"),       # go_to_info
@@ -41,7 +40,6 @@ def main(page: ft.Page):
             page.views.append(abrir_camara(page, lambda e: page.go("/menu")) 
                              )
 
-=======
             page.views.append(menu_principal(
                 page,
                 go_to_info=lambda: page.go("/info"),  # ir a la vista de info detallada
@@ -53,7 +51,6 @@ def main(page: ft.Page):
 
             # Vista del menú principal con opción de ir a la información detallada
             #page.views.append(menu_principal(page, go_to_info=lambda: page.go("/info")))
->>>>>>> 53832e9d23a7e18c6e9715edab70962e14b68e6b
         elif page.route == "/info":
             # Vista de información detallada del cultivo
             page.views.append(info_detallada(page))
