@@ -220,8 +220,7 @@ def registrar_view(page: ft.Page, volver_login):
 
     # Organización de los controles en una columna central
     contenido = ft.Column(
-
-        [
+        controls=[
             titulo,
             correo,
             correo_helper,
@@ -236,9 +235,6 @@ def registrar_view(page: ft.Page, volver_login):
             crear,
             volver
         ],
-
-        [titulo, correo, nombre, telefono, contraseña, confirmar, crear, volver],
-
         alignment=ft.MainAxisAlignment.CENTER,
         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         scroll=ft.ScrollMode.AUTO

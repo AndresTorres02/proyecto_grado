@@ -11,7 +11,7 @@ from abrircamara import abrir_camara
 def main(page: ft.Page):
     # Configura el tamaño de la ventana de la aplicación
     page.window.width = 400        # Ancho fijo de la ventana
-    page.window.height = 800       # Alto fijo de la ventana
+    page.window.height = 680       # Alto fijo de la ventana
     page.window.resizable = False  # La ventana no se puede redimensionar
     page.update()                  # Actualiza la interfaz para aplicar los cambios
 
@@ -24,6 +24,7 @@ def main(page: ft.Page):
             # Vista de registro con opción de volver al login
             page.views.append(registrar_view(page, volver_login=lambda: page.go("/")))
         elif page.route == "/menu":
+<<<<<<< HEAD
             vista_menu = menu_principal(
                 page,
                 lambda e: page.go("/info"),       # go_to_info
@@ -40,6 +41,19 @@ def main(page: ft.Page):
             page.views.append(abrir_camara(page, lambda e: page.go("/menu")) # go_to_abrircamara
                              )
 
+=======
+            page.views.append(menu_principal(
+                page,
+                go_to_info=lambda: page.go("/info"),  # ir a la vista de info detallada
+                debug_go_to_crud=lambda e: page.go("/crud_user")  # ir a la vista de crud_user
+            ))
+
+        elif page.route == "/crud_user":
+            page.views.append(crud_user(page, volver_al_menu=lambda e: page.go("/menu")))
+
+            # Vista del menú principal con opción de ir a la información detallada
+            #page.views.append(menu_principal(page, go_to_info=lambda: page.go("/info")))
+>>>>>>> 53832e9d23a7e18c6e9715edab70962e14b68e6b
         elif page.route == "/info":
             # Vista de información detallada del cultivo
             page.views.append(info_detallada(page))
