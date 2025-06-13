@@ -6,7 +6,7 @@ def menu_principal(page: ft.Page, go_to_info, go_to_crud, go_to_abrir_camara):
 
     # Función para navegar a la pantalla de información detallada
     def ir_a_info_detallada(e):
-        go_to_info()
+        go_to_info(e)
 
     # Función para cerrar sesión del usuario
     def cerrar_sesion(e):

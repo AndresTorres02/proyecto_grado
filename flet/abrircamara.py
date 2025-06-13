@@ -3,6 +3,9 @@ import cv2
 import tempfile
 from predecir import predecir_imagen
 import os
+from condiciones import obtener_condiciones
+from crud_diagnosticos import insertar_diagnostico  # O desde donde tengas la función
+from datetime import datetime
 
 def abrir_camara(page: ft.Page, go_back):
 
@@ -34,6 +37,7 @@ def abrir_camara(page: ft.Page, go_back):
         if ret:
             nombre_imagen = generar_nombre_imagen()
             cv2.imwrite(nombre_imagen, frame)
+            ruta_ultima_imagen = nombre_imagen
             img_control.src = nombre_imagen
             img_control.update()
             contenedor_foto.visible = True
@@ -49,16 +53,41 @@ def abrir_camara(page: ft.Page, go_back):
     def aceptar_foto(e):
         if ruta_ultima_imagen and os.path.exists(ruta_ultima_imagen):
             prediccion, confianza = predecir_imagen(ruta_ultima_imagen)
+            
+            # Obtener nombre de la foto
+            nombre_foto = os.path.basename(ruta_ultima_imagen)
+            enfermedad_detectada = prediccion
+            
+            # Obtener información adicional desde condiciones.py
+            fecha_actual = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            fecha, enfermedad, info_detallada, tratamiento = obtener_condiciones(nombre_foto, enfermedad_detectada)
+
+            # Número de foto = cuántas hay en la carpeta
+            numero_foto = len(os.listdir("imagenes_tomadas"))
+
+            # Guardar en base de datos
+            insertar_diagnostico(
+                numero_foto=numero_foto,
+                nombre_foto=nombre_foto,
+                fecha=fecha_actual,
+                nombre_enfermedad=enfermedad,
+                info_detallada=info_detallada,
+                tratamiento=tratamiento
+            )
+
+            # Mostrar resultado
             page.snack_bar = ft.SnackBar(
-                ft.Text(f"Resultado: {prediccion} ({confianza:.2f}% de confianza)")
+                ft.Text(f"Resultado: {prediccion} ({confianza:.2f}% de confianza). Guardado en base de datos.")
             )
         else:
             page.snack_bar = ft.SnackBar(
                 ft.Text("No se encontró la imagen para analizar.")
             )
+
         page.snack_bar.open = True
         page.update()
-        go_back() 
+        go_back()
+
 
     def tomar_otra(e):
         contenedor_foto.visible = False
