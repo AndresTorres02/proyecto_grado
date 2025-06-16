@@ -2,11 +2,16 @@ import flet as ft
 from abrircamara import abrir_camara
 
 
-def menu_principal(page: ft.Page, go_to_info, go_to_crud, go_to_abrir_camara):
+def menu_principal(page: ft.Page, go_to_info: callable, go_to_crud, go_to_abrir_camara):
 
     # Función para navegar a la pantalla de información detallada
     def ir_a_info_detallada(e):
-        go_to_info(e)
+        imagen = "imagenes/ejemplo.jpg"  # ruta a imagen real o de prueba
+        enfermedad = "Fusariosis"
+        fecha = "2025-06-14"
+        tratamiento = "Aplicar fungicida recomendado"
+
+        go_to_info(imagen, enfermedad, fecha, tratamiento)
 
     # Función para cerrar sesión del usuario
     def cerrar_sesion(e):

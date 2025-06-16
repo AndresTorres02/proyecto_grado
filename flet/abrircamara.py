@@ -66,13 +66,16 @@ def abrir_camara(page: ft.Page, go_back):
             numero_foto = len(os.listdir("imagenes_tomadas"))
 
             # Guardar en base de datos
+
+            correo_usuario = page.session.get("usuario")["correo"]
+
             insertar_diagnostico(
-                numero_foto=numero_foto,
                 nombre_foto=nombre_foto,
                 fecha=fecha_actual,
                 nombre_enfermedad=enfermedad,
                 info_detallada=info_detallada,
-                tratamiento=tratamiento
+                tratamiento=tratamiento,
+                correo_usuario=correo_usuario
             )
 
             # Mostrar resultado

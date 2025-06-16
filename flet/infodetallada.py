@@ -2,6 +2,17 @@ import flet as ft
 from crud_diagnosticos import obtener_diagnosticos  # Asegúrate de importar la función correctamente
 
 def info_detallada(page: ft.Page):
+    # Usamos session para obtener el correo del usuario
+    usuario = page.session.get("usuario")
+    if not usuario or "correo" not in usuario:
+        print("Error: No se encontró el correo del usuario en sesión.")
+        return ft.View(
+            route="/info",
+            controls=[ft.Text("Error: No se encontró el correo del usuario en sesión.")],
+        )
+
+    correo_usuario = usuario["correo"]
+    print("Usuario en sesión al entrar:", correo_usuario)
 
     # Función que crea una tarjeta con los datos de un registro
     def crear_tarjeta(imagen, titulo, fecha, info, recomendaciones):
@@ -26,7 +37,7 @@ def info_detallada(page: ft.Page):
     # Cargar los registros desde la base de datos
     registros = []
     try:
-        resultados = obtener_diagnosticos()
+        resultados = obtener_diagnosticos(correo_usuario)
         for registro in resultados:
             imagen_path = f"imagenes_tomadas/{registro['nombre_foto']}"
             registros.append(

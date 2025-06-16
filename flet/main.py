@@ -26,9 +26,9 @@ def main(page: ft.Page):
         elif page.route == "/menu":
             vista_menu = menu_principal(
                 page,
-                lambda e: page.go("/info"),       # go_to_info
-                lambda e: page.go("/crud_user"),  # go_to_crud_user
-                lambda e: page.go("/abrir_camara")# go_to_abrircamara
+                lambda imagen, enfermedad, fecha, tratamiento: ir_a_info_con_datos(imagen, enfermedad, fecha, tratamiento),
+                lambda e: page.go("/crud_user"),
+                lambda e: page.go("/abrir_camara")
             )
             page.views.append(vista_menu)
 
@@ -45,8 +45,14 @@ def main(page: ft.Page):
             # Vista del menú principal con opción de ir a la información detallada
             #page.views.append(menu_principal(page, go_to_info=lambda: page.go("/info")))
         elif page.route == "/info":
-            # Vista de información detallada del cultivo
-            page.views.append(info_detallada(page))
+            datos = page.session.get("datos_info")
+            if datos:
+                page.views.append(info_detallada(page))
+            else:
+                page.views.append(ft.View(
+                    route="/info",
+                    controls=[ft.Text("No se encontraron datos para mostrar la información detallada.", color="red")]
+                ))
         elif page.route == "/reset":
             page.views.append(reset_contraseña_view(page, volver_login=lambda: page.go("/")))
         else:
@@ -59,6 +65,15 @@ def main(page: ft.Page):
             ))
 
         page.update()  # Se actualiza la página con la nueva vista
+
+    def ir_a_info_con_datos(imagen, enfermedad, fecha, tratamiento):
+        page.session.set("datos_info", {
+            "imagen": imagen,
+            "enfermedad": enfermedad,
+            "fecha": fecha,
+            "tratamiento": tratamiento
+        })
+        page.go("/info")
 
     page.on_route_change = route_change  # Asocia la función al evento de cambio de ruta
     page.go("/")  # Navega inicialmente a la ruta raíz (login)

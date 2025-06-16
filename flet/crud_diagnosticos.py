@@ -3,7 +3,7 @@
 import mysql.connector
 from conexion import obtener_conexion
 
-def insertar_diagnostico(numero_foto, nombre_foto, fecha, nombre_enfermedad, info_detallada, tratamiento):
+def insertar_diagnostico(nombre_foto, fecha, nombre_enfermedad, info_detallada, tratamiento, correo_usuario):
     conexion = mysql.connector.connect(
         host="localhost",
         user="root",
@@ -13,16 +13,16 @@ def insertar_diagnostico(numero_foto, nombre_foto, fecha, nombre_enfermedad, inf
     cursor = conexion.cursor()
     consulta = """
         INSERT INTO informacion 
-        (numero_foto, nombre_foto, fecha, nombre_enfermedad, info_detallada, tratamiento)
+        (nombre_foto, fecha, nombre_enfermedad, info_detallada, tratamiento, correo_usuario)
         VALUES (%s, %s, %s, %s, %s, %s)
     """
-    valores = (numero_foto, nombre_foto, fecha, nombre_enfermedad, info_detallada, tratamiento)
+    valores = (nombre_foto, fecha, nombre_enfermedad, info_detallada, tratamiento, correo_usuario)
     cursor.execute(consulta, valores)
     conexion.commit()
     cursor.close()
     conexion.close()
 
-def obtener_diagnosticos():
+def obtener_diagnosticos(correo_usuario):
     conn = None
     cursor = None
     try:
@@ -31,8 +31,8 @@ def obtener_diagnosticos():
             return []
 
         cursor = conn.cursor(dictionary=True)
-        query = "SELECT * FROM informacion"
-        cursor.execute(query)
+        query = "SELECT * FROM informacion WHERE correo_usuario = %s"
+        cursor.execute(query, (correo_usuario,))
         resultados = cursor.fetchall()
         return resultados
     except mysql.connector.Error as err:

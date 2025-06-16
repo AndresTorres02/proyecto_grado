@@ -87,6 +87,7 @@ def login_view(page: ft.Page, go_to_registrar, go_to_menu, go_to_reset):
                 "correo": user_data[2],         # Correo del usuario
                 "telefono": user_data[4] or ""  # Teléfono del usuario (si existe)
             })
+            print("Sesión guardada:", page.session.get("usuario"))
 
             # Redirigir al menú principal
             go_to_menu()
