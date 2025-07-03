@@ -1,6 +1,7 @@
 import flet as ft
 from abrircamara import abrir_camara
-
+from conexion import obtener_imagenes_usuario
+import os
 
 def menu_principal(page: ft.Page, go_to_info: callable, go_to_crud, go_to_abrir_camara):
 
@@ -156,6 +157,49 @@ def menu_principal(page: ft.Page, go_to_info: callable, go_to_crud, go_to_abrir_
         alignment=ft.MainAxisAlignment.SPACE_BETWEEN
     )
 
+    registros_db = obtener_imagenes_usuario(usuario["correo"])
+
+    # Validar existencia de archivo e interpretar las rutas locales correctamente
+    imagenes_registro = []
+    for reg in registros_db:
+        ruta_absoluta = os.path.join("imagenes_tomadas", reg["nombre_foto"])
+        if os.path.isfile(ruta_absoluta):
+            imagenes_registro.append({
+                "ruta": ruta_absoluta,
+                "fecha": reg["fecha"]
+            })
+
+    def galeria_imagenes(imagenes_registro):
+        return ft.Container(
+            content=ft.Row(
+                controls=[
+                    ft.Container(
+                        content=ft.Column([
+                            ft.Image(
+                                src=registro["ruta"],
+                                width=100,
+                                height=100,
+                                fit=ft.ImageFit.COVER
+                            ),
+                            ft.Text(
+                                registro["fecha"],
+                                size=12,
+                                color="black"
+                        )
+                        ]),
+                        padding=0,
+                        border_radius=0,
+                        bgcolor=None
+                    )
+                    for registro in imagenes_registro
+                ],
+                spacing=10,
+                scroll=ft.ScrollMode.ALWAYS,
+                height=140
+            ),
+            width=380
+        )
+
     # Fila que combina columna de datos con imagen decorativa
     fila_contenido = ft.Row(
         [columna_izquierda, imagen_derecha],
@@ -209,8 +253,9 @@ def menu_principal(page: ft.Page, go_to_info: callable, go_to_crud, go_to_abrir_
             content=ft.Column(
                 [
                     fila_contenido,
-                    ft.Container(height=25),
-                    registros_fila
+                    ft.Container(height=5),
+                    registros_fila,
+                    galeria_imagenes(imagenes_registro)
                 ],
                 scroll=ft.ScrollMode.AUTO,  # Habilita scroll si el contenido excede
             ),

@@ -154,3 +154,32 @@ def verify_login(email, password):
             cursor.close()
         if conn:
             conn.close()
+
+def obtener_imagenes_usuario(correo):
+    """
+    Devuelve una lista de imágenes (nombre_foto, fecha) del usuario con el correo especificado.
+    """
+    conn = None
+    cursor = None
+    try:
+        conn = obtener_conexion()
+        if not conn:
+            return []
+
+        cursor = conn.cursor(dictionary=True)
+        query = """
+            SELECT nombre_foto, fecha
+            FROM informacion
+            WHERE correo_usuario = %s
+            ORDER BY fecha DESC
+        """
+        cursor.execute(query, (correo,))
+        return cursor.fetchall()
+    except mysql.connector.Error as err:
+        print(f"Error al obtener imágenes del usuario: {err}")
+        return []
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
