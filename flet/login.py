@@ -24,12 +24,29 @@ def login_view(page: ft.Page, go_to_registrar, go_to_menu, go_to_reset):
         go_to_reset()
 
     # Campo para ingresar el correo electrónico
-    correo = ft.TextField(label="Escribe tu correo", text_style=ft.TextStyle(color="black"), border_color="black")
+    correo = ft.TextField(
+        label="Escribe tu correo",
+        color="black",
+        border_color="black",
+        focused_border_color="black",
+        cursor_color="black",
+        text_style=ft.TextStyle(color="black"),
+        label_style=ft.TextStyle(color="black")
+    )
     # Texto para mostrar errores relacionados con el correo
     correo_error = ft.Text("", color="red", size=12)
 
     # Campo para ingresar la contraseña (modo oculto)
-    contraseña = ft.TextField(label="Escribe tu contraseña", password=True, text_style=ft.TextStyle(color="black"), border_color="black")
+    contraseña = ft.TextField(
+        label="Escribe tu contraseña",
+        password=True,
+        color="black",
+        border_color="black",
+        focused_border_color="black",
+        cursor_color="black",
+        text_style=ft.TextStyle(color="black"),
+        label_style=ft.TextStyle(color="black")
+    )
     # Texto para mostrar errores relacionados con la contraseña
     contraseña_error = ft.Text("", color="red", size=12)
 
@@ -101,10 +118,20 @@ def login_view(page: ft.Page, go_to_registrar, go_to_menu, go_to_reset):
     titulo = ft.Text("Ingresar", size=30, color="black", weight=ft.FontWeight.BOLD)
     
     # Botón para iniciar sesión
-    loguear = ft.FilledButton(text="LOGIN", on_click=validar_login)
+    loguear = ft.FilledButton(
+        text="Ingresar",
+        on_click=validar_login,
+        bgcolor="#2E7D32",  # Verde oscuro (natural y elegante)
+        color="white"       # Texto blanco
+    )
     
     # Botón para ir a la vista de registro
-    registrar = ft.FilledButton(text="Regístrate", on_click=ir_a_registro)
+    registrar = ft.FilledButton(
+        text="Regístrate",
+        on_click=ir_a_registro,
+        bgcolor="#2E7D32",  # Mismo tono verde para consistencia
+        color="white"
+    )
 
     # Contenedor con todos los controles de la vista
     contenido = ft.Column(
@@ -117,7 +144,7 @@ def login_view(page: ft.Page, go_to_registrar, go_to_menu, go_to_reset):
          ft.TextButton(
          text="¿Olvidaste la contraseña?",
          style=ft.ButtonStyle(
-            color="blue",
+            color="#388E3C",
             overlay_color="transparent",
             text_style=ft.TextStyle(decoration=ft.TextDecoration.UNDERLINE)
             ),
