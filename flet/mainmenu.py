@@ -120,10 +120,17 @@ def menu_principal(page: ft.Page, go_to_info: callable, go_to_crud, go_to_abrir_
 
     # Botón para ir al CRUD
     boton_ir_a_crud = ft.ElevatedButton(
-        "editar info",
+        "Editar información",
         on_click=go_to_crud,
-        icon=ft.Icons.EDIT
+        style=ft.ButtonStyle(
+            bgcolor="#2E7D32",  # Color verde oscuro
+            color="white",        # Texto en blanco
+            padding=ft.padding.symmetric(horizontal=20, vertical=10),
+            shape=ft.RoundedRectangleBorder(radius=12),  # Bordes redondeados
+            elevation=5                    # Sombra suave (efecto de elevación)
+        )
     )
+
 
     # Columna izquierda con la info del usuario
     columna_izquierda = ft.Column(
@@ -151,8 +158,18 @@ def menu_principal(page: ft.Page, go_to_info: callable, go_to_crud, go_to_abrir_
     # Fila superior con registros y botón "ver todo"
     registros_fila = ft.Row(
         [
-            ft.Text("Registros de mi cultivo", size=18, weight=ft.FontWeight.BOLD, color="black"),
-            ft.TextButton("Ver todo", style=ft.ButtonStyle(color="blue"), on_click=ir_a_info_detallada)
+            ft.Container(
+    content=ft.Text(
+            "Registros de mi cultivo",
+                    size=18,
+                    weight=ft.FontWeight.BOLD,
+                    color="white"
+                ),
+                bgcolor="#2E7D32",       # Color de fondo verde
+                padding=ft.padding.symmetric(horizontal=10, vertical=6),  # Espaciado interno
+                border_radius=12,        # Bordes redondeados
+            ),
+            ft.TextButton("Ver todos", style=ft.ButtonStyle(color="#388E3C"), on_click=ir_a_info_detallada)
         ],
         alignment=ft.MainAxisAlignment.SPACE_BETWEEN
     )
@@ -208,13 +225,22 @@ def menu_principal(page: ft.Page, go_to_info: callable, go_to_crud, go_to_abrir_
     )
 
     # Botón de cerrar sesión
-    boton_cerrar_sesion = ft.Row(
-        [
-            ft.Image(src="imagenes/salida.png", width=25, height=25),
-            ft.TextButton("Cerrar sesión", on_click=cerrar_sesion, style=ft.ButtonStyle(color="red"))
-        ],
-        spacing=10,
-        alignment=ft.MainAxisAlignment.START
+    boton_cerrar_sesion = ft.Container(
+        content=ft.IconButton(
+            icon=None,  # No usamos un ícono de la librería, sino una imagen personalizada
+            on_click=cerrar_sesion,
+            style=ft.ButtonStyle(
+                padding=0,
+                shape=ft.RoundedRectangleBorder(radius=10),  # Bordes redondeados opcionales
+            ),
+            content=ft.Image(
+                src="imagenes/logout.png",  # Tu ícono personalizado
+                width=40,
+                height=40,
+                fit=ft.ImageFit.CONTAIN
+            ),
+            tooltip="Cerrar sesión"  # Texto al pasar el mouse (opcional)
+        )
     )
 
     #boton cámara
