@@ -94,7 +94,7 @@ def registrar_view(page: ft.Page, volver_login):
             respuesta_seguridad.border_color = "red"
             vacio = True
         else:
-            respuesta_seguridad.border_color = "grey"
+            respuesta_seguridad.border_color = "black"
 
         # Si hay algún campo vacío, se detiene la ejecución
         if vacio:
@@ -180,6 +180,8 @@ def registrar_view(page: ft.Page, volver_login):
     # Preguntas de seguridad (Dropdown)
     pregunta_seguridad = ft.Dropdown(
         label="Selecciona una pregunta de seguridad",
+        label_style=ft.TextStyle(color="black"),
+        text_style=ft.TextStyle(color="black"),
         options=[
             ft.dropdown.Option("¿Cuál es el nombre de tu primera mascota?"),
             ft.dropdown.Option("¿En qué ciudad naciste?"),
@@ -187,7 +189,7 @@ def registrar_view(page: ft.Page, volver_login):
             ft.dropdown.Option("¿Cuál es el segundo nombre de tu madre?"),
             ft.dropdown.Option("¿Cuál fue el nombre de tu primera escuela?")
         ],
-        border_color="grey"
+        border_color="black"
     )
 
     # Campo para responder la pregunta
@@ -195,7 +197,7 @@ def registrar_view(page: ft.Page, volver_login):
         label="Escribe tu respuesta",
         color="black",
         label_style=ft.TextStyle(color="black"),
-        border_color="grey"
+        border_color="black"
     )
 
     # Campo de contraseña y mensaje de error
@@ -215,8 +217,8 @@ def registrar_view(page: ft.Page, volver_login):
     confirmar = ft.TextField(label="Confirmar contraseña", password=True, color="black", label_style=ft.TextStyle(color="black"))
 
     # Botones del formulario
-    crear = ft.FilledButton(text="CREAR", on_click=registrar_usuario)
-    volver = ft.FilledButton(text="Volver al Login", on_click=regresar)
+    crear = ft.FilledButton(text="CREAR", on_click=registrar_usuario, bgcolor="#2E7D32", color="white")
+    volver = ft.FilledButton(text="Volver al Login", on_click=regresar, bgcolor="#2E7D32", color="white")
 
     # Organización de los controles en una columna central
     contenido = ft.Column(
